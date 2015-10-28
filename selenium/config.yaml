@@ -1,0 +1,21 @@
+Book_number: 1431
+
+Structure:
+  Chapter:
+    Name: Глава 1. Великое знание
+    Part:
+      Name: Часть 1.
+      Pages: 1-3
+    Part:
+      Name: Часть 2.
+      Pages: 4-6
+    Part:
+      Name: Часть 3.
+      Pages: 7-10
+  Chapter:
+    Name: Глава 2. Скрытый смысл
+    Part:
+      Name: Часть 1.
+      Pages: 4-6
+
+Page_selector: ЛД 'ТД ЕПБ' том 1 (.*).pdf
