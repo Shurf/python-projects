@@ -2,47 +2,48 @@
 __author__ = 'schrecknetuser'
 
 from selenium import webdriver
-from input_data import *
+import input_data
 import os
 import re
+from selenium.common.exceptions import *
 
 # hardcoded values
-library_name = 'Библиотека'.decode('utf-8')
-edit_content_name = 'Редактировать содержимое'.decode('utf-8')
-edit_name = 'Редактировать'.decode('utf-8')
-page_name_class = 'pageName'.decode('utf-8')
-object_action_class = 'objectAction'.decode('utf-8')
-objects_name = 'Объекты '.decode('utf-8')
-book_number0_id = 'book_number0'.decode('utf-8')
-change_name = 'Изменить'.decode('utf-8')
-select_name = 'Выбрать'.decode('utf-8')
-book_chapters = 'Книга. Главы'.decode('utf-8')
-book_parts = 'Книга. Части'.decode('utf-8')
-book_pages = 'Книга. Страницы'.decode('utf-8')
-chapter_parts = 'Глава. Части'.decode('utf-8')
-chapter_pages = 'Глава. Страницы'.decode('utf-8')
-part_pages = 'Часть. Страницы'.decode('utf-8')
-chapter_name = 'Глава'.decode('utf-8')
-part_name = 'Часть'.decode('utf-8')
-page_name = 'Страница'.decode('utf-8')
-add_name = 'Добавить'.decode('utf-8')
-add_file_name = 'Добавить файл'.decode('utf-8')
-chapter_number_colon = 'Глава. Номер :'.decode('utf-8')
-part_number_colon = 'Часть. Номер :'.decode('utf-8')
-page_number_colon = 'Страница. Номер :'.decode('utf-8')
-book_name_input_name = 'book_name'.decode('utf-8')
-chapter_name_input_name = 'chapter_name'.decode('utf-8')
-part_name_input_name = 'part_name'.decode('utf-8')
-dynamic_databrowser_browse_books = 'dynamic_databrowser3400'.decode('utf-8')
-dynamic_databrowser_browse_chapters = 'dynamic_databrowser3600'.decode('utf-8')
-dynamic_databrowser_browse_parts = 'dynamic_databrowser3800'.decode('utf-8')
-close_name = 'Закрыть'.decode('utf-8')
-clone_suffix = '_clone'.decode('utf-8')
-pdf_file = 'Файл PDF'.decode('utf-8')
-files_name = 'Файлы'.decode('utf-8')
-input_files_name = 'files[]'.decode('utf-8')
-input_files_type = 'file'.decode('utf-8')
-file_container_id = 'file_container'.decode('utf-8')
+library_name = 'Библиотека'
+edit_content_name = 'Редактировать содержимое'
+edit_name = 'Редактировать'
+page_name_class = 'pageName'
+object_action_class = 'objectAction'
+objects_name = 'Объекты '
+book_number0_id = 'book_number0'
+change_name = 'Изменить'
+select_name = 'Выбрать'
+book_chapters = 'Книга. Главы'
+book_parts = 'Книга. Части'
+book_pages = 'Книга. Страницы'
+chapter_parts = 'Глава. Части'
+chapter_pages = 'Глава. Страницы'
+part_pages = 'Часть. Страницы'
+chapter_name = 'Глава'
+part_name = 'Часть'
+page_name = 'Страница'
+add_name = 'Добавить'
+add_file_name = 'Добавить файл'
+chapter_number_colon = 'Глава. Номер :'
+part_number_colon = 'Часть. Номер :'
+page_number_colon = 'Страница. Номер :'
+book_name_input_name = 'book_name'
+chapter_name_input_name = 'chapter_name'
+part_name_input_name = 'part_name'
+dynamic_databrowser_browse_books = 'dynamic_databrowser3400'
+dynamic_databrowser_browse_chapters = 'dynamic_databrowser3600'
+dynamic_databrowser_browse_parts = 'dynamic_databrowser3800'
+close_name = 'Закрыть'
+clone_suffix = '_clone'
+pdf_file = 'Файл PDF'
+files_name = 'Файлы'
+input_files_name = 'files[]'
+input_files_type = 'file'
+file_container_id = 'file_container'
 # save_changes = 'Сохранить изменения'
 
 
@@ -76,14 +77,14 @@ class LoginManager:
 
 class FileManager:
     def __init__(self, files_path):
-        self.files_path = files_path.decode('utf-8')
+        self.files_path = files_path
         pass
 
     def get_file_path(self, file_num):
         for file_name in os.listdir(self.files_path):
             if not os.path.isfile(os.path.join(self.files_path, file_name)):
                 continue
-            match = re.search(page_selector.decode('utf-8'), file_name)
+            match = re.search(page_selector, file_name)
             if not match:
                 continue
             if len(match.groups()) < 1:
@@ -95,6 +96,7 @@ class FileManager:
             except:
                 continue
         return None
+
 
 class LibraryWorker:
     def __init__(self, driver):
@@ -111,12 +113,12 @@ class LibraryWorker:
         element.click()
 
     def get_first_chapter_page_num(self, chapter):
-        return chapter.parts[0].first_page
+        return 1#chapter.parts[0].first_page
 
     def link_book_to_current_component(self):
         element = self.driver.find_element_by_xpath('//div[@id="%s"]//form/div/input[@name="%s"]' %
                                                     (dynamic_databrowser_browse_books, book_name_input_name))
-        element.send_keys(default_book_name)
+        element.send_keys(input_data.default_book_name)
         element.submit()
 
         # find it again because page has been reloaded
@@ -243,51 +245,52 @@ class LibraryWorker:
         element = element.find_element_by_xpath('span[text()[normalize-space()] = "%s"]' % add_name)
         element.click()
 
-        #find main form for page
+        # find main form for page
         form = self.driver.find_element_by_xpath('//form[div/b[contains(text(), "%s")]]' % page_number_colon)
 
-        #input page number
+        # input page number
         element = form.find_element_by_id(page_number_id)
         element.send_keys(page_num)
 
-        #find and click the button that links created part to current book
+        # find and click the button that links created part to current book
         element = form.find_element_by_xpath('div[b[contains(text(), "%s")]]' % book_pages)
         element = element.find_element_by_xpath('span[button]')
         element.click()
 
-        #link book to this page
+        # link book to this page
         self.link_book_to_current_page()
 
-        #find and click the button that links created page to current chapter
+        # find and click the button that links created page to current chapter
         element = form.find_element_by_xpath('div[b[contains(text(), "%s")]]' % chapter_pages)
         element = element.find_element_by_xpath('span[button]')
         element.click()
 
         self.link_chapter_to_current_page()
 
-        #find and click the button that links created part to current chapter
+        # find and click the button that links created part to current chapter
         element = form.find_element_by_xpath('div[b[contains(text(), "%s")]]' % part_pages)
         element = element.find_element_by_xpath('span[button]')
         element.click()
 
         self.link_part_to_current_page()
 
-        #find and click "pdf file"
+        # find and click "pdf file"
         element = form.find_element_by_xpath('div[b[contains(text(), "%s")]]' % pdf_file)
         element = element.find_element_by_xpath('span[button]')
         element.click()
 
-        #find and click "add file"
+        # find and click "add file"
         element = self.driver.find_element_by_xpath('//td[h3[text()[normalize-space()] = "%s"]]' % files_name)
         element = element.find_element_by_xpath('span[text()[normalize-space()] = "%s"]' % add_file_name)
         element.click()
 
-        #show plain uploader that we can work with
+        # show plain uploader that we can work with
         self.driver.execute_script(
             "util.hideElements('uploadContainerFS', 'uploadContainerURI'); 	util.showElement('uploadContainerFSOld')")
 
-        #put file name to the hidden input field
-        element = self.driver.find_element_by_xpath('//input[@type="%s" and @name="%s"]' % (input_files_type, input_files_name))
+        # put file name to the hidden input field
+        element = self.driver.find_element_by_xpath(
+            '//input[@type="%s" and @name="%s"]' % (input_files_type, input_files_name))
         element.send_keys(pdf_file_name)
         element.submit()
 
@@ -302,38 +305,38 @@ class LibraryWorker:
         element = element.find_element_by_xpath('span[button]')
         element.click()
 
-        #find and click "add button"
+        # find and click "add button"
         element = self.driver.find_element_by_xpath('//td[h1[text()[normalize-space()] = "%s"]]' % part_name)
         element = element.find_element_by_xpath('span[text()[normalize-space()] = "%s"]' % add_name)
         element.click()
 
-        #find main form for part
+        # find main form for part
         form = self.driver.find_element_by_xpath('//form[div/b[contains(text(), "%s")]]' % part_number_colon)
 
-        #input part number
+        # input part number
         element = form.find_element_by_id(part_number_id)
         element.send_keys(part_num)
 
-        #input default page name to make search easier - later this default name is replaced
+        # input default page name to make search easier - later this default name is replaced
         element = form.find_element_by_id(part_name_id)
         element.send_keys(default_part_name)
 
-        #find and click the button that links created part to current book
+        # find and click the button that links created part to current book
         element = form.find_element_by_xpath('div[b[contains(text(), "%s")]]' % book_parts)
         element = element.find_element_by_xpath('span[button]')
         element.click()
 
-        #link book to this part
+        # link book to this part
         self.link_book_to_current_part()
 
-        #find and click the button that links created part to current chapter
+        # find and click the button that links created part to current chapter
         element = form.find_element_by_xpath('div[b[contains(text(), "%s")]]' % chapter_parts)
         element = element.find_element_by_xpath('span[button]')
         element.click()
 
         self.link_chapter_to_current_part()
 
-        #we have to submit the form and then reopen it because otherwise we won't be able to select it
+        # we have to submit the form and then reopen it because otherwise we won't be able to select it
         form.submit()
         self.find_current_part()
         self.edit_found_part()
@@ -342,19 +345,19 @@ class LibraryWorker:
             self.add_page(page_num)
             break
 
-            #force apply changes
-            #self.driver.execute_script("popupController.reloadLastPopup(false)")
+            # force apply changes
+            # self.driver.execute_script("popupController.reloadLastPopup(false)")
             #
             ##find main form once again
-            #form = self.driver.find_element_by_xpath('//form[div/b[contains(text(), "%s")]]' % part_number_colon)
+            # form = self.driver.find_element_by_xpath('//form[div/b[contains(text(), "%s")]]' % part_number_colon)
             #
             ##change name to normal
-            #element = form.find_element_by_id(part_name_id)
-            #element.clear()
-            #element.send_keys(part.name.decode('utf-8'))
-            #form.submit()
+            # element = form.find_element_by_id(part_name_id)
+            # element.clear()
+            # element.send_keys(part.name)
+            # form.submit()
             #
-            #self.close_parts_window()
+            # self.close_parts_window()
 
     def add_chapter(self, chapter):
         element = self.driver.find_element_by_xpath('//div[b[contains(text(), "%s")]]' % book_chapters)
@@ -388,18 +391,115 @@ class LibraryWorker:
             part_num += 1
             break
 
-            #force apply changes
-            #self.driver.execute_script("popupController.reloadLastPopup(false)")
+            # force apply changes
+            # self.driver.execute_script("popupController.reloadLastPopup(false)")
             #
             ##find form again
-            #form = self.driver.find_element_by_xpath('//form[div/b[contains(text(), "%s")]]' % chapter_number_colon)
+            # form = self.driver.find_element_by_xpath('//form[div/b[contains(text(), "%s")]]' % chapter_number_colon)
             #
             ##set normal chapter name
-            #element = form.find_element_by_id(chapter_name_id)
-            #element.clear()
-            #element.send_keys(chapter.name.decode('utf-8'))
-            #form.submit()
+            # element = form.find_element_by_id(chapter_name_id)
+            # element.clear()
+            # element.send_keys(chapter.name)
+            # form.submit()
 
+
+####################################
+
+    def create_part(self, chapter, part_number):
+        element = self.driver.find_element_by_xpath('//div[b[contains(text(), "%s")]]' % chapter_parts)
+        element = element.find_element_by_xpath('span[button]')
+        element.click()
+
+        element = self.driver.find_element_by_xpath('//td[h1[text()[normalize-space()] = "%s"]]' % part_name)
+        element = element.find_element_by_xpath('span[text()[normalize-space()] = "%s"]' % add_name)
+        element.click()
+
+        form = self.driver.find_element_by_xpath('//form[div/b[contains(text(), "%s")]]' % part_number_colon)
+        element = form.find_element_by_id(part_number_id)
+        element.send_keys(part_number)
+
+        element = form.find_element_by_id(part_name_id)
+        element.send_keys(default_part_name)
+
+        element = form.find_element_by_xpath('div[b[contains(text(), "%s")]]' % chapter_parts)
+        element = element.find_element_by_xpath('span[button]')
+        element.click()
+
+        self.link_chapter_to_current_part()
+        # we have to submit the form and then reopen it because otherwise we won't be able to select it
+        form.submit()
+
+        self.close_parts_window()
+
+        #force update
+        self.driver.execute_script("popupController.reloadLastPopup(false)")
+
+    def process_chapter(self, chapter):
+        # finding table with already loaded chapters
+        chapter_num = 1
+        parts_table_div = self.driver.find_element_by_xpath('//div[b[contains(text(), "%s")]]' % chapter_parts)
+
+        for part in chapter.parts:
+            try:
+                # if such a chapter already exists, it should be completed
+                parts_table_div.find_element_by_xpath(
+                    'table/tbody/tr/td[text()[normalize-space()]="%s"]' % part.name)
+                continue
+            except NoSuchElementException:
+                pass
+
+            # we try to find a part with default name: if it is found, we probably crashed while filling it
+            try:
+                element = parts_table_div.find_element_by_xpath(
+                    'table/tbody/tr/td[contains(text(), "%s")]' % default_part_name)
+            except NoSuchElementException:
+                self.create_part(part, chapter_num)
+                # after updating we should find the div again
+                parts_table_div = self.driver.find_element_by_xpath('//div[b[contains(text(), "%s")]]' % chapter_parts)
+                element = parts_table_div.find_element_by_xpath(
+                    'table/tbody/tr/td[contains(text(), "%s")]' % default_part_name)
+                # we should now create a chapter with default name
+
+            #change_button = element.find_element_by_xpath('../td/span[text()[normalize-space()]="%s"]' % change_name)
+            #change_button.click()
+
+            # self.add_chapter(chapter)
+
+            break
+
+        # find main form for part
+        form = self.driver.find_element_by_xpath('//form[div/b[contains(text(), "%s")]]' % chapter_number_colon)
+        form.submit()
+
+    def create_chapter(self, chapter):
+        element = self.driver.find_element_by_xpath('//div[b[contains(text(), "%s")]]' % book_chapters)
+        element = element.find_element_by_xpath('span[button]')
+        element.click()
+
+        element = self.driver.find_element_by_xpath('//td[h1[text()[normalize-space()] = "%s"]]' % chapter_name)
+        element = element.find_element_by_xpath('span[text()[normalize-space()] = "%s"]' % add_name)
+        element.click()
+
+        form = self.driver.find_element_by_xpath('//form[div/b[contains(text(), "%s")]]' % chapter_number_colon)
+        element = form.find_element_by_id(chapter_number_id)
+        element.send_keys(self.get_first_chapter_page_num(chapter))
+
+        element = form.find_element_by_id(chapter_name_id)
+        element.send_keys(default_chapter_name)
+
+        element = form.find_element_by_xpath('div[b[contains(text(), "%s")]]' % book_chapters)
+        element = element.find_element_by_xpath('span[button]')
+        element.click()
+
+        self.link_book_to_current_chapter()
+        # we have to submit the form and then reopen it because otherwise we won't be able to select it
+        form.submit()
+
+        self.close_chapters_window()
+
+        #force update
+        self.driver.execute_script("popupController.reloadLastPopup(false)")
 
     def edit_book(self, book_number):
         element = self.driver.find_element_by_xpath(
@@ -407,8 +507,34 @@ class LibraryWorker:
         element = element.find_element_by_xpath('../td/span[text()[normalize-space()]="%s"]' % change_name)
         element.click()
 
-        for chapter in structure:
-            self.add_chapter(chapter)
+        # finding table with already loaded chapters
+        chapters_table_div = self.driver.find_element_by_xpath('//div[b[contains(text(), "%s")]]' % book_chapters)
+
+        for chapter in input_data.book_structure.chapters:
+            try:
+                # if such a chapter already exists, it should be completed
+                chapters_table_div.find_element_by_xpath(
+                    'table/tbody/tr/td[text()[normalize-space()]="%s"]' % chapter.name)
+                continue
+            except NoSuchElementException:
+                pass
+
+            # we try to find a chapter with default name: if it is found, we probably crashed while filling it
+            try:
+                element = chapters_table_div.find_element_by_xpath(
+                    'table/tbody/tr/td[contains(text(), "%s")]' % default_chapter_name)
+            except NoSuchElementException:
+                self.create_chapter(chapter)
+                # after updating we should find the div again
+                chapters_table_div = self.driver.find_element_by_xpath('//div[b[contains(text(), "%s")]]' % book_chapters)
+                element = chapters_table_div.find_element_by_xpath(
+                    'table/tbody/tr/td[contains(text(), "%s")]' % default_chapter_name)
+                # we should now create a chapter with default name
+            change_button = element.find_element_by_xpath('../td/span[text()[normalize-space()]="%s"]' % change_name)
+            change_button.click()
+            self.process_chapter(chapter)
+
+            # self.add_chapter(chapter)
 
             break
 

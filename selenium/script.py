@@ -8,43 +8,43 @@ import re
 import time
 
 # hardcoded values
-library_name = 'Библиотека'.decode('utf-8')
-edit_content_name = 'Редактировать содержимое'.decode('utf-8')
-edit_name = 'Редактировать'.decode('utf-8')
-page_name_class = 'pageName'.decode('utf-8')
-object_action_class = 'objectAction'.decode('utf-8')
-objects_name = 'Объекты '.decode('utf-8')
-book_number0_id = 'book_number0'.decode('utf-8')
-change_name = 'Изменить'.decode('utf-8')
-select_name = 'Выбрать'.decode('utf-8')
-book_chapters = 'Книга. Главы'.decode('utf-8')
-book_parts = 'Книга. Части'.decode('utf-8')
-book_pages = 'Книга. Страницы'.decode('utf-8')
-chapter_parts = 'Глава. Части'.decode('utf-8')
-chapter_pages = 'Глава. Страницы'.decode('utf-8')
-part_pages = 'Часть. Страницы'.decode('utf-8')
-chapter_name = 'Глава'.decode('utf-8')
-part_name = 'Часть'.decode('utf-8')
-page_name = 'Страница'.decode('utf-8')
-add_name = 'Добавить'.decode('utf-8')
-add_file_name = 'Добавить файл'.decode('utf-8')
-chapter_number_colon = 'Глава. Номер :'.decode('utf-8')
-part_number_colon = 'Часть. Номер :'.decode('utf-8')
-page_number_colon = 'Страница. Номер :'.decode('utf-8')
-book_name_input_name = 'book_name'.decode('utf-8')
-chapter_name_input_name = 'chapter_name'.decode('utf-8')
-part_name_input_name = 'part_name'.decode('utf-8')
-dynamic_databrowser_browse_books = 'dynamic_databrowser3400'.decode('utf-8')
-dynamic_databrowser_browse_chapters = 'dynamic_databrowser3600'.decode('utf-8')
-dynamic_databrowser_browse_parts = 'dynamic_databrowser3800'.decode('utf-8')
-close_name = 'Закрыть'.decode('utf-8')
-clone_suffix = '_clone'.decode('utf-8')
-pdf_file = 'Файл PDF'.decode('utf-8')
-files_name = 'Файлы'.decode('utf-8')
-input_files_name = 'files[]'.decode('utf-8')
-input_files_type = 'file'.decode('utf-8')
-file_container_id = 'file_container'.decode('utf-8')
-choose_name = 'выбрать'.decode('utf-8')
+library_name = 'Библиотека'
+edit_content_name = 'Редактировать содержимое'
+edit_name = 'Редактировать'
+page_name_class = 'pageName'
+object_action_class = 'objectAction'
+objects_name = 'Объекты '
+book_number0_id = 'book_number0'
+change_name = 'Изменить'
+select_name = 'Выбрать'
+book_chapters = 'Книга. Главы'
+book_parts = 'Книга. Части'
+book_pages = 'Книга. Страницы'
+chapter_parts = 'Глава. Части'
+chapter_pages = 'Глава. Страницы'
+part_pages = 'Часть. Страницы'
+chapter_name = 'Глава'
+part_name = 'Часть'
+page_name = 'Страница'
+add_name = 'Добавить'
+add_file_name = 'Добавить файл'
+chapter_number_colon = 'Глава. Номер :'
+part_number_colon = 'Часть. Номер :'
+page_number_colon = 'Страница. Номер :'
+book_name_input_name = 'book_name'
+chapter_name_input_name = 'chapter_name'
+part_name_input_name = 'part_name'
+dynamic_databrowser_browse_books = 'dynamic_databrowser3400'
+dynamic_databrowser_browse_chapters = 'dynamic_databrowser3600'
+dynamic_databrowser_browse_parts = 'dynamic_databrowser3800'
+close_name = 'Закрыть'
+clone_suffix = '_clone'
+pdf_file = 'Файл PDF'
+files_name = 'Файлы'
+input_files_name = 'files[]'
+input_files_type = 'file'
+file_container_id = 'file_container'
+choose_name = 'выбрать'
 # save_changes = 'Сохранить изменения'
 
 
@@ -78,14 +78,14 @@ class LoginManager:
 
 class FileManager:
     def __init__(self, files_path):
-        self.files_path = files_path.decode('utf-8')
+        self.files_path = files_path
         pass
 
     def get_file_path(self, file_num):
         for file_name in os.listdir(self.files_path):
             if not os.path.isfile(os.path.join(self.files_path, file_name)):
                 continue
-            match = re.search(page_selector.decode('utf-8'), file_name)
+            match = re.search(page_selector, file_name)
             if not match:
                 continue
             if len(match.groups()) < 1:
@@ -353,7 +353,7 @@ class LibraryWorker:
             ##change name to normal
             #element = form.find_element_by_id(part_name_id)
             #element.clear()
-            #element.send_keys(part.name.decode('utf-8'))
+            #element.send_keys(part.name)
             #form.submit()
             #
             #self.close_parts_window()
@@ -483,7 +483,7 @@ class LibraryWorker:
             ##set normal chapter name
             #element = form.find_element_by_id(chapter_name_id)
             #element.clear()
-            #element.send_keys(chapter.name.decode('utf-8'))
+            #element.send_keys(chapter.name)
             #form.submit()"""
 
 
