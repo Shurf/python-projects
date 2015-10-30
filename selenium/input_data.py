@@ -9,8 +9,9 @@ Part = namedtuple("Part", "name pages")
 Chapter = namedtuple("Chapter", "name parts pages")
 Book = namedtuple("Book", "name chapters parts pages")
 
-pdf_page_selector = "ЛД 'ТД ЕПБ' том 1 (.+).pdf"
-html_page_selector = "ЛД 'ТД ЕПБ' том 1 (.+).html"
+page_selector = "ЛД 'ТД ЕПБ' том 1 (.+)"
+pdf_extension = '.pdf'
+html_extension = '.html'
 #book_number = '1431'
 #book_number = '1230'
 #book_number = '1220'
@@ -19,7 +20,7 @@ file_name_prefix = "ЛД 'ТД ЕПБ' том 3 "
 file_name_postfix = ".pdf"
 
 
-#files_path = 'c:\\5\\Архив\\'
+files_path = 'c:\\5\\Архив\\'
 #files_path = '/users/schrecknetuser/1/doctrine3'
 
 book_structure = Book("Название книги",
