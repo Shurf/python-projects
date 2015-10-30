@@ -1,23 +1,26 @@
 # coding=utf-8
 __author__ = 'schrecknetuser'
 
-from selenium import webdriver
-import input_data
 import os
 import re
-from selenium.common.exceptions import *
 from enum import Enum
 import time
+
+from selenium import webdriver
+from selenium.common.exceptions import *
 from bs4 import UnicodeDammit
-import html
 import pyperclip
 from selenium.webdriver.common.keys import Keys
+
+import input_data
+
 
 # hardcoded values
 library_name = 'Библиотека'
 edit_content_name = 'Редактировать содержимое'
 edit_name = 'Редактировать'
 page_name_class = 'pageName'
+page_name_id = 'page_name'
 object_action_class = 'objectAction'
 objects_name = 'Объекты '
 book_number0_id = 'book_number0'
@@ -53,7 +56,7 @@ file_container_id = 'file_container'
 page_number = 'Страница. Номер'
 edit_html_source_name = 'Редактировать HTML-исходник'
 textarea_htmlsource_id = 'htmlSource'
-html_editor_frame_id = 'mce_0_ifr'
+html_editor_frame_id = 'mce_'
 # save_changes = 'Сохранить изменения'
 
 
@@ -62,10 +65,11 @@ part_number_id = 'part_number'
 page_number_id = 'page_number'
 chapter_name_id = 'chapter_name'
 part_name_id = 'part_name'
-page_number_in_list_id = 'page_number0'
+page_number_in_list_id = 'page_number'
 
 default_chapter_name = '____current_chapter'
 default_part_name = '____current_part'
+page_prefix = 'Страница '
 
 # config
 password = '7DaJVD8a'
@@ -79,6 +83,42 @@ class PageType(Enum):
     book_page = 1
     chapter_page = 2
     part_page = 3
+
+class PartType(Enum):
+    book_part = 1
+    chapter_part = 2
+
+class StructureWorker:
+    def make_pages_array(self, pages_string):
+
+        result = []
+        trimmed_string = pages_string.strip()
+        if not trimmed_string:
+            return result
+
+        blocks = trimmed_string.split(',')
+        for block in blocks:
+            trimmed_block = block.strip()
+            split_block = trimmed_block.split('-')
+            if len(split_block) < 2:
+                result.append(int(trimmed_block))
+            else:
+                for i in range(int(split_block[0]), int(split_block[1]) + 1):
+                    result.append(i)
+
+        return result
+
+    def find_min_part_page(self, part):
+        array = self.make_pages_array(part.pages)
+        return min(array)
+
+    def find_min_chapter_page(self, chapter):
+        array = self.make_pages_array(chapter.pages)
+
+        for part in chapter.parts:
+            array += self.make_pages_array(part.pages)
+
+        return min(array)
 
 
 class LoginManager:
@@ -353,12 +393,19 @@ class LibraryWorker:
 
             # ###################################
 
-    def create_part(self, chapter, part_number):
+    def create_part(self, part_number, part_type):
 
         # finding "add part button"
-        element = self.driver.find_element_by_xpath('//div[b[contains(text(), "%s")]]' % chapter_parts)
-        element = element.find_element_by_xpath('span[button]')
-        element.click()
+        if part_type == PartType.chapter_part:
+            element = self.driver.find_element_by_xpath('//div[b[contains(text(), "%s")]]' % chapter_parts)
+            element = element.find_element_by_xpath('span[button]')
+            element.click()
+        elif part_type == PartType.book_part:
+            element = self.driver.find_element_by_xpath('//div[b[contains(text(), "%s")]]' % book_parts)
+            element = element.find_element_by_xpath('span[button]')
+            element.click()
+        else:
+            raise ValueError('Unknown page type for part %d' % part_number)
 
         # finding "add" button in the part list screen
         element = self.driver.find_element_by_xpath('//td[h1[text()[normalize-space()] = "%s"]]' % part_name)
@@ -374,12 +421,24 @@ class LibraryWorker:
         element = form.find_element_by_id(part_name_id)
         element.send_keys(default_part_name)
 
-        # linking part to chapter
-        element = form.find_element_by_xpath('div[b[contains(text(), "%s")]]' % chapter_parts)
-        element = element.find_element_by_xpath('span[button]')
-        element.click()
+        if part_type == PartType.chapter_part:
+            # linking part to chapter
+            element = form.find_element_by_xpath('div[b[contains(text(), "%s")]]' % chapter_parts)
+            element = element.find_element_by_xpath('span[button]')
+            element.click()
 
-        self.link_chapter_to_current_part()
+            self.link_chapter_to_current_part()
+
+        elif part_type == PartType.book_part:
+            # linking part to chapter
+            element = form.find_element_by_xpath('div[b[contains(text(), "%s")]]' % book_parts)
+            element = element.find_element_by_xpath('span[button]')
+            element.click()
+
+            self.link_book_to_current_part()
+        else:
+            raise ValueError('Unknown page type for part %d' % part_number)
+
         # we have to submit the form and then reopen it because otherwise we won't be able to select it
         form.submit()
 
@@ -387,25 +446,6 @@ class LibraryWorker:
 
         # force update chapter page to display newly created part
         self.driver.execute_script("popupController.reloadLastPopup(false)")
-
-    def make_pages_array(self, pages_string):
-
-        result = []
-        trimmed_string = pages_string.strip()
-        if not trimmed_string:
-            return result
-
-        blocks = trimmed_string.split(',')
-        for block in blocks:
-            trimmed_block = block.strip()
-            split_block = trimmed_block.split('-')
-            if len(split_block) < 2:
-                result.append(int(trimmed_block))
-            else:
-                for i in range(int(split_block[0]), int(split_block[1]) + 1):
-                    result.append(i)
-
-        return result
 
     def add_page(self, page_num, page_type):
 
@@ -419,8 +459,17 @@ class LibraryWorker:
         if html_file_name is None:
             return
 
+        if page_type == PageType.book_page:
+            h1_text = book_pages
+        elif page_type == PageType.chapter_page:
+            h1_text = chapter_pages
+        elif page_type == PageType.part_page:
+            h1_text = part_pages
+        else:
+            raise ValueError('Unknown page type for page %d' % page_num)
+
         # find and click "add page" button
-        element = self.driver.find_element_by_xpath('//div[b[contains(text(), "%s")]]' % part_pages)
+        element = self.driver.find_element_by_xpath('//div[b[contains(text(), "%s")]]' % h1_text)
         element = element.find_element_by_xpath('span[button]')
         element.click()
 
@@ -435,6 +484,9 @@ class LibraryWorker:
         # input page number
         element = form.find_element_by_id(page_number_id)
         element.send_keys(page_num)
+
+        element = form.find_element_by_id(page_name_id)
+        element.send_keys(page_prefix + str(page_num))
 
         if page_type == PageType.book_page:
             # find and click the button that links created part to current book
@@ -495,23 +547,26 @@ class LibraryWorker:
             'div/span/table/tbody/tr/td/table/tbody/tr/td/a[@title="%s"]' % edit_html_source_name)
         element.click()
 
-        self.driver.switch_to_frame(self.driver.find_element_by_xpath('//iframe[@id="%s"]' % html_editor_frame_id))
+        self.driver.switch_to_frame(self.driver.find_element_by_css_selector('iframe[id*="%s"]' % html_editor_frame_id))
 
         with open(html_file_name, 'rb') as file:
             html_content = UnicodeDammit(file.read(), is_html=True).unicode_markup
-            #element = self.driver.find_element_by_xpath('//form/textarea')
+            # element = self.driver.find_element_by_xpath('//form/textarea')
             element = self.driver.find_element_by_xpath('//form/textarea[@name="%s"]' % textarea_htmlsource_id)
             pyperclip.copy(html_content)
             if os.name == 'posix':
                 element.send_keys(Keys.COMMAND, 'v')
             else:
                 element.send_keys(Keys.CONTROL, 'v')
-            #element.send_keys(html_content)
-            #self.driver.execute_script('document.getElementById("%s").value = "%s"' % (textarea_htmlsource_id, html.escape(html_content)))
-            #self.driver.execute_script('arguments[0].setAttribute("value", "%s")' % html_content, element)
-            # element.submit()
+            # element.send_keys(html_content)
+            # self.driver.execute_script('document.getElementById("%s").value = "%s"' % (textarea_htmlsource_id, html.escape(html_content)))
+            # self.driver.execute_script('arguments[0].setAttribute("value", "%s")' % html_content, element)
+            element.submit()
 
         self.driver.switch_to_default_content()
+        form.submit()
+
+        self.driver.execute_script('popupController.closeLastPopup();')
 
     def find_pages_table_div(self, text_to_find):
         pages_table_div = self.driver.find_element_by_xpath('//div[b[contains(text(), "%s")]]' % text_to_find)
@@ -519,40 +574,53 @@ class LibraryWorker:
 
     def process_part(self, part):
 
-        # finding main form for part
-        form = self.driver.find_element_by_xpath('//form[div/b[contains(text(), "%s")]]' % part_number_colon)
-        pages_array = self.make_pages_array(part.pages)
+        pages_array = StructureWorker().make_pages_array(part.pages)
 
         for page_num in pages_array:
             pages_table_div = self.find_pages_table_div(part_pages)
             try:
                 # if a page exists then we've already completed it
-                pages_table_div.find_element_by_xpath('table/tbody/td/td[@id = "%s"]' % page_number_in_list_id)
-                continue
+                found = False
+                elements = pages_table_div.find_elements_by_css_selector('td[id*="%s"]' % page_number_in_list_id)
+                for element in elements:
+                    if element.text.strip() == str(page_num):
+                        found = True
+                        break
+                if found:
+                    continue
             except NoSuchElementException:
                 pass
 
             self.add_page(page_num, PageType.part_page)
-            break
 
             # uncomment for production
             # force update part page to display newly created page
-            # self.driver.execute_script("popupController.reloadLastPopup(false)")
-            # form = self.driver.find_element_by_xpath('//form[div/b[contains(text(), "%s")]]' % part_number_colon)
-            #form.submit()
+            self.driver.execute_script("popupController.reloadLastPopup(false)")
 
+        # finding main form for part
+        form = self.driver.find_element_by_xpath('//form[div/b[contains(text(), "%s")]]' % part_number_colon)
+        element = form.find_element_by_id(part_name_id)
+        element.clear()
+        element.send_keys(part.name)
+        form.submit()
 
     def process_chapter(self, chapter):
         # finding table with already loaded chapters
-        part_num = 1
 
         for part in chapter.parts:
             parts_table_div = self.driver.find_element_by_xpath('//div[b[contains(text(), "%s")]]' % chapter_parts)
             try:
                 # if such a chapter already exists, it should be completed
-                parts_table_div.find_element_by_xpath(
-                    'table/tbody/tr/td[text()[normalize-space()]="%s"]' % part.name)
-                continue
+                found = False
+                # if such a part already exists, it should be completed
+                existing_parts = parts_table_div.find_elements_by_xpath(
+                    'table/tbody/tr/td[contains(text(), "%s")]' % part.name)
+                for existing_part in existing_parts:
+                    if existing_part.text.strip() == part.name:
+                        found = True
+                        break
+                if found:
+                    continue
             except NoSuchElementException:
                 pass
 
@@ -561,7 +629,7 @@ class LibraryWorker:
                 element = parts_table_div.find_element_by_xpath(
                     'table/tbody/tr/td[contains(text(), "%s")]' % default_part_name)
             except NoSuchElementException:
-                self.create_part(part, part_num)
+                self.create_part(StructureWorker().find_min_part_page(part), PartType.chapter_part)
                 # after updating we should find the div again
                 parts_table_div = self.driver.find_element_by_xpath('//div[b[contains(text(), "%s")]]' % chapter_parts)
                 element = parts_table_div.find_element_by_xpath(
@@ -571,16 +639,39 @@ class LibraryWorker:
             change_button.click()
 
             self.process_part(part)
-            # force update part page to display newly created page
-            # self.driver.execute_script("popupController.reloadLastPopup(false)")
+            # force update part page to display newly created part
+            self.driver.execute_script("popupController.reloadLastPopup(false)")
 
+        pages_array = StructureWorker().make_pages_array(chapter.pages)
 
-            break
+        for page_num in pages_array:
+            pages_table_div = self.find_pages_table_div(chapter_pages)
+            try:
+                # if a page exists then we've already completed it
+                found = False
+                elements = pages_table_div.find_elements_by_css_selector('td[id*="%s"]' % page_number_in_list_id)
+                for element in elements:
+                    if element.text.strip() == str(page_num):
+                        found = True
+                        break
+                if found:
+                    continue
+            except NoSuchElementException:
+                pass
+
+            self.add_page(page_num, PageType.chapter_page)
 
             # uncomment for production
-            # find main form for part
-            # form = self.driver.find_element_by_xpath('//form[div/b[contains(text(), "%s")]]' % chapter_number_colon)
-            #form.submit()
+            # force update part page to display newly created page
+            self.driver.execute_script("popupController.reloadLastPopup(false)")
+
+        # uncomment for production
+        # find main form for part
+        form = self.driver.find_element_by_xpath('//form[div/b[contains(text(), "%s")]]' % chapter_number_colon)
+        element = form.find_element_by_id(chapter_name_id)
+        element.clear()
+        element.send_keys(chapter.name)
+        form.submit()
 
     def create_chapter(self, chapter):
         element = self.driver.find_element_by_xpath('//div[b[contains(text(), "%s")]]' % book_chapters)
@@ -593,7 +684,7 @@ class LibraryWorker:
 
         form = self.driver.find_element_by_xpath('//form[div/b[contains(text(), "%s")]]' % chapter_number_colon)
         element = form.find_element_by_id(chapter_number_id)
-        element.send_keys(self.get_first_chapter_page_num(chapter))
+        element.send_keys(StructureWorker().find_min_chapter_page(chapter))
 
         element = form.find_element_by_id(chapter_name_id)
         element.send_keys(default_chapter_name)
@@ -622,9 +713,15 @@ class LibraryWorker:
             chapters_table_div = self.driver.find_element_by_xpath('//div[b[contains(text(), "%s")]]' % book_chapters)
             try:
                 # if such a chapter already exists, it should be completed
-                chapters_table_div.find_element_by_xpath(
-                    'table/tbody/tr/td[text()[normalize-space()]="%s"]' % chapter.name)
-                continue
+                found = False
+                existing_chapters = chapters_table_div.find_elements_by_xpath(
+                    'table/tbody/tr/td[contains(text(), "%s")]' % chapter.name)
+                for existing_chapter in existing_chapters:
+                    if existing_chapter.text.strip() == chapter.name:
+                        found = True
+                        break
+                if found:
+                    continue
             except NoSuchElementException:
                 pass
 
@@ -645,9 +742,67 @@ class LibraryWorker:
             self.process_chapter(chapter)
 
             # force update
-            # self.driver.execute_script("popupController.reloadLastPopup(false)")
+            self.driver.execute_script("popupController.reloadLastPopup(false)")
 
-            break
+        for part in input_data.book_structure.parts:
+            # finding table with already loaded chapters
+            parts_table_div = self.driver.find_element_by_xpath('//div[b[contains(text(), "%s")]]' % book_parts)
+            try:
+                found = False
+                # if such a part already exists, it should be completed
+                existing_parts = parts_table_div.find_elements_by_xpath(
+                    'table/tbody/tr/td[contains(text(), "%s")]' % part.name)
+                for existing_part in existing_parts:
+                    if existing_part.text.strip() == part.name:
+                        found = True
+                        break
+                if found:
+                    continue
+            except NoSuchElementException:
+                pass
+
+            # we try to find a part with default name: if it is found, we probably crashed while filling it
+            try:
+                element = parts_table_div.find_element_by_xpath(
+                    'table/tbody/tr/td[contains(text(), "%s")]' % default_part_name)
+            except NoSuchElementException:
+                self.create_part(StructureWorker().find_min_part_page(part), PartType.book_part)
+                # after updating we should find the div again
+                parts_table_div = self.driver.find_element_by_xpath(
+                    '//div[b[contains(text(), "%s")]]' % book_parts)
+                element = parts_table_div.find_element_by_xpath(
+                    'table/tbody/tr/td[contains(text(), "%s")]' % default_part_name)
+                # we should now create a chapter with default name
+            change_button = element.find_element_by_xpath('../td/span[text()[normalize-space()]="%s"]' % change_name)
+            change_button.click()
+            self.process_part(part)
+
+            # force update
+            self.driver.execute_script("popupController.reloadLastPopup(false)")
+
+        pages_array = StructureWorker().make_pages_array(input_data.book_structure.pages)
+
+        for page_num in pages_array:
+            pages_table_div = self.find_pages_table_div(book_pages)
+            try:
+                # if a page exists then we've already completed it
+                found = False
+                elements = pages_table_div.find_elements_by_css_selector('td[id*="%s"]' % page_number_in_list_id)
+                for element in elements:
+                    if element.text.strip() == str(page_num):
+                        found = True
+                        break
+                if found:
+                    continue
+            except NoSuchElementException:
+                pages_table_div.find_element_by_css_selector('table/tbody/tr/td[id*="%s"]' % page_number_in_list_id)
+                pass
+
+            self.add_page(page_num, PageType.book_page)
+
+            # uncomment for production
+            # force update part page to display newly created page
+            self.driver.execute_script("popupController.reloadLastPopup(false)")
 
 
 def __main__():

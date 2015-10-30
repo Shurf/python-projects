@@ -20,8 +20,8 @@ file_name_prefix = "ЛД 'ТД ЕПБ' том 3 "
 file_name_postfix = ".pdf"
 
 
-files_path = 'c:\\5\\Архив\\'
-#files_path = '/users/schrecknetuser/1/doctrine3'
+#files_path = 'c:\\5\\Архив\\'
+files_path = '/users/schrecknetuser/1'
 
 book_structure = Book("Название книги",
                       [Chapter('Глава 1',
