@@ -100,9 +100,9 @@ class StructureWorker:
             trimmed_block = block.strip()
             split_block = trimmed_block.split('-')
             if len(split_block) < 2:
-                result.append(int(trimmed_block))
+                result.append(int(trimmed_block.replace('~', '-')))
             else:
-                for i in range(int(split_block[0]), int(split_block[1]) + 1):
+                for i in range(int(split_block[0].replace('~', '-')), int(split_block[1].replace('~', '-')) + 1):
                     result.append(i)
 
         return result
@@ -155,7 +155,6 @@ class FileManager:
 
 
 class LibraryWorker:
-
     def __init__(self, driver):
         self.driver = driver
         self.timeout = 3
@@ -201,6 +200,21 @@ class LibraryWorker:
         except:
             time.sleep(self.timeout)
             return parent.find_elements_by_css_selector(css_selector)
+
+    def escape_for_xpath(self, string):
+        split_string = string.split('\'')
+        num_quotes = len(split_string) - 1
+        out_string = ""
+        out_string += "concat("
+        for element in split_string:
+            out_string += "'%s'" % element
+            if num_quotes > 0:
+                out_string += ', "\',", '
+                num_quotes -= 1
+        #ensure that we have at least 2 args to concat
+        out_string += ", '')"
+
+        return out_string
 
     def open_library(self):
         self.find_element_by_xpath_wrapper(self.driver,
@@ -397,11 +411,11 @@ class LibraryWorker:
 
         pdf_file_name = file_manager.get_file_path(page_num, input_data.pdf_extension)
         if pdf_file_name is None:
-            return
+            raise ValueError("can't find pdf file for page %d", page_num)
 
         html_file_name = file_manager.get_file_path(page_num, input_data.html_extension)
         if html_file_name is None:
-            return
+            raise ValueError("can't find html file for page %d", page_num)
 
         if page_type == PageType.book_page:
             h1_text = book_pages
@@ -432,7 +446,12 @@ class LibraryWorker:
         element.send_keys(page_num)
 
         element = self.find_element_by_id_wrapper(form, page_name_id)
-        element.send_keys(page_prefix + str(page_num))
+        page_title = ''
+        if page_num in input_data.pages_dictionary:
+            page_title = input_data.pages_dictionary[page_num]
+        else:
+            page_title = page_prefix + str(page_num)
+        element.send_keys(page_title)
 
         if page_type == PageType.book_page:
             # find and click the button that links created part to current book
@@ -534,7 +553,7 @@ class LibraryWorker:
                 # if a page exists then we've already completed it
                 found = False
                 elements = self.find_elements_by_css_selector_wrapper(pages_table_div,
-                                                                     'td[id*="%s"]' % page_number_in_list_id)
+                                                                      'td[id*="%s"]' % page_number_in_list_id)
                 for element in elements:
                     if element.text.strip() == str(page_num):
                         found = True
@@ -569,7 +588,8 @@ class LibraryWorker:
                 found = False
                 # if such a part already exists, it should be completed
                 existing_parts = self.find_elements_by_xpath_wrapper(parts_table_div,
-                                                                    'table/tbody/tr/td[contains(text(), "%s")]' % part.name)
+                                                                     'table/tbody/tr/td[contains(text(), %s)]' %
+                                                                     self.escape_for_xpath(part.name))
                 for existing_part in existing_parts:
                     if existing_part.text.strip() == part.name:
                         found = True
@@ -664,6 +684,12 @@ class LibraryWorker:
         self.driver.execute_script("popupController.reloadLastPopup(false)")
 
     def edit_book(self, book_number):
+
+        element = self.find_element_by_xpath_wrapper(self.driver, '//form/div/input[@name="%s"]' %
+                                                     book_name_input_name)
+        element.send_keys(input_data.default_book_name)
+        element.submit()
+
         element = self.find_element_by_xpath_wrapper(self.driver,
                                                      '//td[@id="%s" and contains(text(), "%s")]' % (
                                                          book_number0_id, book_number))
@@ -679,7 +705,8 @@ class LibraryWorker:
                 # if such a chapter already exists, it should be completed
                 found = False
                 existing_chapters = self.find_elements_by_xpath_wrapper(chapters_table_div,
-                                                                        'table/tbody/tr/td[contains(text(), "%s")]' % chapter.name)
+                                                                        'table/tbody/tr/td[contains(text(), %s)]' %
+                                                                        self.escape_for_xpath(chapter.name))
                 for existing_chapter in existing_chapters:
                     if existing_chapter.text.strip() == chapter.name:
                         found = True
@@ -697,11 +724,12 @@ class LibraryWorker:
                 self.create_chapter(chapter)
                 # after updating we should find the div again
                 chapters_table_div = self.find_element_by_xpath_wrapper(self.driver,
-                    '//div[b[contains(text(), "%s")]]' % book_chapters)
+                                                                        '//div[b[contains(text(), "%s")]]' % book_chapters)
                 element = self.find_element_by_xpath_wrapper(chapters_table_div,
-                    'table/tbody/tr/td[contains(text(), "%s")]' % default_chapter_name)
+                                                             'table/tbody/tr/td[contains(text(), "%s")]' % default_chapter_name)
                 # we should now create a chapter with default name
-            change_button = self.find_element_by_xpath_wrapper(element, '../td/span[text()[normalize-space()]="%s"]' % change_name)
+            change_button = self.find_element_by_xpath_wrapper(element,
+                                                               '../td/span[text()[normalize-space()]="%s"]' % change_name)
             change_button.click()
             self.process_chapter(chapter)
 
@@ -710,12 +738,14 @@ class LibraryWorker:
 
         for part in input_data.book_structure.parts:
             # finding table with already loaded chapters
-            parts_table_div = self.find_element_by_xpath_wrapper(self.driver, '//div[b[contains(text(), "%s")]]' % book_parts)
+            parts_table_div = self.find_element_by_xpath_wrapper(self.driver,
+                                                                 '//div[b[contains(text(), "%s")]]' % book_parts)
             try:
                 found = False
                 # if such a part already exists, it should be completed
                 existing_parts = self.find_elements_by_xpath_wrapper(parts_table_div,
-                    'table/tbody/tr/td[contains(text(), "%s")]' % part.name)
+                                                                     'table/tbody/tr/td[contains(text(), %s)]' %
+                                                                     self.escape_for_xpath(part.name))
                 for existing_part in existing_parts:
                     if existing_part.text.strip() == part.name:
                         found = True
@@ -728,16 +758,17 @@ class LibraryWorker:
             # we try to find a part with default name: if it is found, we probably crashed while filling it
             try:
                 element = self.find_element_by_xpath_wrapper(parts_table_div,
-                    'table/tbody/tr/td[contains(text(), "%s")]' % default_part_name)
+                                                             'table/tbody/tr/td[contains(text(), "%s")]' % default_part_name)
             except NoSuchElementException:
                 self.create_part(StructureWorker().find_min_part_page(part), PartType.book_part)
                 # after updating we should find the div again
                 parts_table_div = self.find_element_by_xpath_wrapper(self.driver,
-                    '//div[b[contains(text(), "%s")]]' % book_parts)
+                                                                     '//div[b[contains(text(), "%s")]]' % book_parts)
                 element = self.find_element_by_xpath_wrapper(parts_table_div,
-                    'table/tbody/tr/td[contains(text(), "%s")]' % default_part_name)
+                                                             'table/tbody/tr/td[contains(text(), "%s")]' % default_part_name)
                 # we should now create a chapter with default name
-            change_button = self.find_element_by_xpath_wrapper(element, '../td/span[text()[normalize-space()]="%s"]' % change_name)
+            change_button = self.find_element_by_xpath_wrapper(element,
+                                                               '../td/span[text()[normalize-space()]="%s"]' % change_name)
             change_button.click()
             self.process_part(part)
 
@@ -751,7 +782,8 @@ class LibraryWorker:
             try:
                 # if a page exists then we've already completed it
                 found = False
-                elements = self.find_elements_by_css_selector_wrapper(pages_table_div, 'td[id*="%s"]' % page_number_in_list_id)
+                elements = self.find_elements_by_css_selector_wrapper(pages_table_div,
+                                                                      'td[id*="%s"]' % page_number_in_list_id)
                 for element in elements:
                     if element.text.strip() == str(page_num):
                         found = True
@@ -759,7 +791,8 @@ class LibraryWorker:
                 if found:
                     continue
             except NoSuchElementException:
-                self.find_element_by_css_selector_wrapper(pages_table_div, 'table/tbody/tr/td[id*="%s"]' % page_number_in_list_id)
+                self.find_element_by_css_selector_wrapper(pages_table_div,
+                                                          'table/tbody/tr/td[id*="%s"]' % page_number_in_list_id)
                 pass
 
             self.add_page(page_num, PageType.book_page)
