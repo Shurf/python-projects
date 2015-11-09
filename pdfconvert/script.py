@@ -34,8 +34,9 @@ class PdfConverter:
             if not re.match('.+\.pdf', file_name):
                 continue
 
-            #print("ghostscripting %s" % full_path)
-            #self.ghostcript_process(full_path)
+            if config.use_gs:
+                print("ghostscripting %s" % full_path)
+                self.ghostcript_process(full_path)
             args = [os.path.join(self.pdf_converter_path, self.converter_name)]
             for option in self.additional_options:
                 args.append(option)
