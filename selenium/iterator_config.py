@@ -1,5 +1,6 @@
 __author__ = 'schrecknetuser'
 
-book_number = '1210'
+book_number = '1260'
+book_name = 'Великие облики Учителей и понятие об Агни Йоге'
 
-shift = -26
+shift = 0

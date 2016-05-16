@@ -31,7 +31,8 @@ class PdfConverter:
             full_path = os.path.join(self.pdf_files_path, file_name)
             if not os.path.isfile(full_path):
                 continue
-            if not re.match('.+\.pdf', file_name):
+            match = re.search('(.+)\.pdf', file_name)
+            if not match:
                 continue
 
             if config.use_gs:
@@ -44,6 +45,9 @@ class PdfConverter:
             args.append(full_path)
 
             print("Converting %s" % full_path)
+            subprocess.call(args)
+
+            args = [config.text_converter_name, full_path, os.path.join(self.pdf_files_path, match.group(1)) + '.txt']
             subprocess.call(args)
 
 

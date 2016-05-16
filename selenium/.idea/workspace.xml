@@ -2,17 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2736ccf8-6925-4eb5-84ed-a93aa6cdd2bd" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/configs/etika.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/iterator.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/iterator_config.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/configs/td1.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/configs/td2.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/configs/td3.py" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/config.yaml" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/script2.py" afterPath="$PROJECT_DIR$/create_book.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/configs/etika-2.1.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/configs/letters.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/configs/letters2.2.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/configs/letters2.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/configs/letters3.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/configs/msgr4.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/configs/think-bg.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/configs/think.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../pdfconvert/config.py" afterPath="$PROJECT_DIR$/../pdfconvert/config.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/create_book.py" afterPath="$PROJECT_DIR$/create_book.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/configs/etika.py" afterPath="$PROJECT_DIR$/configs/etika.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/input_data.py" afterPath="$PROJECT_DIR$/input_data.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/iterator.py" afterPath="$PROJECT_DIR$/iterator.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/iterator_config.py" afterPath="$PROJECT_DIR$/iterator_config.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../pdfconvert/script.py" afterPath="$PROJECT_DIR$/../pdfconvert/script.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/configs/td1.py" afterPath="$PROJECT_DIR$/configs/td1.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../pdfconvert/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../pdfconvert/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -35,11 +40,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="create_book.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="create_book.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/create_book.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="78" column="21" selection-start-line="78" selection-start-column="21" selection-end-line="78" selection-end-column="21" />
+              <caret line="798" column="38" selection-start-line="798" selection-start-column="38" selection-end-line="798" selection-end-column="38" />
               <folding>
                 <element signature="e#46#55#0" expanded="true" />
               </folding>
@@ -47,31 +52,31 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="output.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/output.py">
+      <file leaf-file-name="letters3.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/configs/letters3.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="293" selection-end-column="1" />
+              <caret line="357" column="0" selection-start-line="357" selection-start-column="0" selection-end-line="357" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="script.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/script.py">
+      <file leaf-file-name="etika.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/configs/etika.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="421" column="12" selection-start-line="421" selection-start-column="12" selection-end-line="421" selection-end-column="105" />
+              <caret line="500" column="1" selection-start-line="500" selection-start-column="1" selection-end-line="500" selection-end-column="1" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="iterator.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/iterator.py">
+      <file leaf-file-name="output.yml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/output.yml">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="206" column="76" selection-start-line="206" selection-start-column="76" selection-end-line="206" selection-end-column="76" />
+              <caret line="4" column="11" selection-start-line="0" selection-start-column="0" selection-end-line="323" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -81,27 +86,57 @@
         <entry file="file://$PROJECT_DIR$/iterator_config.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="4" column="11" selection-start-line="4" selection-start-column="11" selection-end-line="4" selection-end-column="11" />
+              <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="input_data.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="input_data.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/input_data.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="13" column="22" selection-start-line="13" selection-start-column="22" selection-end-line="13" selection-end-column="22" />
+            <state vertical-scroll-proportion="0.29801324">
+              <caret line="9" column="51" selection-start-line="9" selection-start-column="51" selection-end-line="9" selection-end-column="51" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="td3.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/configs/td3.py">
+      <file leaf-file-name="letters2.2.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/configs/letters2.2.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="192" column="1" selection-start-line="8" selection-start-column="0" selection-end-line="192" selection-end-column="1" />
+              <caret line="378" column="0" selection-start-line="378" selection-start-column="0" selection-end-line="378" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="letters2.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/configs/letters2.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="389" column="0" selection-start-line="389" selection-start-column="0" selection-end-line="389" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="etika-2.1.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/configs/etika-2.1.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="480" column="1" selection-start-line="480" selection-start-column="1" selection-end-line="480" selection-end-column="1" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="td1.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/configs/td1.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="24" column="26" selection-start-line="24" selection-start-column="26" selection-end-line="24" selection-end-column="26" />
               <folding />
             </state>
           </provider>
@@ -128,12 +163,24 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/script2.py" />
-        <option value="$PROJECT_DIR$/iterator.py" />
         <option value="$PROJECT_DIR$/configs/td3.py" />
         <option value="$PROJECT_DIR$/configs/td2.py" />
-        <option value="$PROJECT_DIR$/create_book.py" />
-        <option value="$PROJECT_DIR$/iterator_config.py" />
+        <option value="$PROJECT_DIR$/configs/td1.py" />
+        <option value="$PROJECT_DIR$/script.py" />
+        <option value="$PROJECT_DIR$/configs/msgr4.py" />
+        <option value="$PROJECT_DIR$/configs/etika.py" />
+        <option value="$PROJECT_DIR$/configs/think.py" />
+        <option value="$PROJECT_DIR$/configs/think-bg.py" />
         <option value="$PROJECT_DIR$/output.py" />
+        <option value="$PROJECT_DIR$/output.yml" />
+        <option value="$PROJECT_DIR$/iterator.py" />
+        <option value="$PROJECT_DIR$/iterator_config.py" />
+        <option value="$PROJECT_DIR$/configs/etika-2.1.py" />
+        <option value="$PROJECT_DIR$/configs/letters.py" />
+        <option value="$PROJECT_DIR$/configs/letters2.py" />
+        <option value="$PROJECT_DIR$/configs/letters2.2.py" />
+        <option value="$PROJECT_DIR$/create_book.py" />
+        <option value="$PROJECT_DIR$/configs/letters3.py" />
         <option value="$PROJECT_DIR$/input_data.py" />
       </list>
     </option>
@@ -142,8 +189,8 @@
     <order />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="240" />
-    <option name="y" value="1103" />
+    <option name="x" value="1" />
+    <option name="y" value="54" />
     <option name="width" value="1440" />
     <option name="height" value="873" />
   </component>
@@ -173,6 +220,8 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -207,8 +256,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -418,33 +465,39 @@
       <option name="project" value="LOCAL" />
       <updated>1446240760299</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="improved scripts">
+      <created>1447090699343</created>
+      <option name="number" value="00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1447090699343</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="240" y="1103" width="1440" height="873" extended-state="6" />
-    <editor active="false" />
+    <frame x="1" y="54" width="1440" height="873" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33125" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33125" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3278867" sideWeight="0.50033355" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3278867" sideWeight="0.50033355" order="13" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.4017413" sideWeight="0.49966645" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39676616" sideWeight="0.49966645" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4017413" sideWeight="0.49966645" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32894737" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39676616" sideWeight="0.49966645" order="3" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -460,30 +513,36 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="more or less working version" />
-    <option name="LAST_COMMIT_MESSAGE" value="more or less working version" />
+    <MESSAGE value="improved scripts" />
+    <option name="LAST_COMMIT_MESSAGE" value="improved scripts" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="python-line">
           <url>file://$PROJECT_DIR$/create_book.py</url>
-          <line>732</line>
-          <option name="timeStamp" value="62" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="python-line">
-          <url>file://$PROJECT_DIR$/create_book.py</url>
-          <line>723</line>
-          <option name="timeStamp" value="68" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="python-line">
-          <url>file://$PROJECT_DIR$/create_book.py</url>
-          <line>762</line>
-          <option name="timeStamp" value="69" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="python-line">
-          <url>file://$PROJECT_DIR$/create_book.py</url>
-          <line>462</line>
+          <line>466</line>
           <option name="timeStamp" value="71" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/iterator.py</url>
+          <line>169</line>
+          <option name="timeStamp" value="75" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/create_book.py</url>
+          <line>610</line>
+          <option name="timeStamp" value="77" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/create_book.py</url>
+          <line>540</line>
+          <option name="timeStamp" value="81" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/create_book.py</url>
+          <line>635</line>
+          <option name="timeStamp" value="88" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
@@ -493,7 +552,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="73" />
+      <option name="time" value="89" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
@@ -505,100 +564,6 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/create_book.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="78" column="21" selection-start-line="78" selection-start-column="21" selection-end-line="78" selection-end-column="21" />
-          <folding>
-            <element signature="e#46#55#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/output.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="293" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/script.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="421" column="12" selection-start-line="421" selection-start-column="12" selection-end-line="421" selection-end-column="105" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/iterator.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="206" column="76" selection-start-line="206" selection-start-column="76" selection-end-line="206" selection-end-column="76" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/iterator_config.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="4" column="11" selection-start-line="4" selection-start-column="11" selection-end-line="4" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/input_data.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="13" column="22" selection-start-line="13" selection-start-column="22" selection-end-line="13" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/configs/td3.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="192" column="1" selection-start-line="8" selection-start-column="0" selection-end-line="192" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/create_book.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#46#55#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/input_data.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/create_book.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="673" column="0" selection-start-line="673" selection-start-column="0" selection-end-line="673" selection-end-column="0" />
-          <folding>
-            <element signature="e#46#55#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/input_data.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/script.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -833,29 +798,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/script.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="421" column="12" selection-start-line="421" selection-start-column="12" selection-end-line="421" selection-end-column="105" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/iterator.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="206" column="76" selection-start-line="206" selection-start-column="76" selection-end-line="206" selection-end-column="76" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/configs/td2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="274" column="1" selection-start-line="6" selection-start-column="0" selection-end-line="274" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydevd_comm.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33260393">
@@ -870,25 +812,99 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/configs/td3.py">
+    <entry file="file://$PROJECT_DIR$/script.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="192" column="1" selection-start-line="8" selection-start-column="0" selection-end-line="192" selection-end-column="1" />
-          <folding />
+          <caret line="445" column="11" selection-start-line="445" selection-start-column="11" selection-end-line="445" selection-end-column="11" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/configs/td1.py">
+    <entry file="file://$PROJECT_DIR$/configs/msgr4.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.5298013">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="2" column="54" selection-start-line="2" selection-start-column="54" selection-end-line="2" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/http/client.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="335" column="0" selection-start-line="335" selection-start-column="0" selection-end-line="335" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/configs/think-bg.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="52" column="46" selection-start-line="52" selection-start-column="46" selection-end-line="52" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/configs/think.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="15" column="20" selection-start-line="15" selection-start-column="20" selection-end-line="15" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/configs/td3.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="192" column="1" selection-start-line="6" selection-start-column="0" selection-end-line="192" selection-end-column="1" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/output.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="293" selection-end-column="1" />
+          <caret line="12" column="30" selection-start-line="12" selection-start-column="30" selection-end-line="12" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/configs/td2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.3157215">
+          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/configs/letters.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.8840206">
+          <caret line="101" column="2" selection-start-line="101" selection-start-column="2" selection-end-line="101" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/create_book.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="798" column="38" selection-start-line="798" selection-start-column="38" selection-end-line="798" selection-end-column="38" />
+          <folding>
+            <element signature="e#46#55#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/iterator.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="345" column="43" selection-start-line="345" selection-start-column="43" selection-end-line="345" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/configs/etika.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="500" column="1" selection-start-line="500" selection-start-column="1" selection-end-line="500" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/output.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="4" column="11" selection-start-line="0" selection-start-column="0" selection-end-line="323" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -896,26 +912,56 @@
     <entry file="file://$PROJECT_DIR$/iterator_config.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="4" column="11" selection-start-line="4" selection-start-column="11" selection-end-line="4" selection-end-column="11" />
+          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/configs/letters2.2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="378" column="0" selection-start-line="378" selection-start-column="0" selection-end-line="378" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/configs/letters2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="389" column="0" selection-start-line="389" selection-start-column="0" selection-end-line="389" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/configs/etika-2.1.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="480" column="1" selection-start-line="480" selection-start-column="1" selection-end-line="480" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/configs/td1.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="24" column="26" selection-start-line="24" selection-start-column="26" selection-end-line="24" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/configs/letters3.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="357" column="0" selection-start-line="357" selection-start-column="0" selection-end-line="357" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/input_data.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="13" column="22" selection-start-line="13" selection-start-column="22" selection-end-line="13" selection-end-column="22" />
+        <state vertical-scroll-proportion="0.29801324">
+          <caret line="9" column="51" selection-start-line="9" selection-start-column="51" selection-end-line="9" selection-end-column="51" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/create_book.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="78" column="21" selection-start-line="78" selection-start-column="21" selection-end-line="78" selection-end-column="21" />
-          <folding>
-            <element signature="e#46#55#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>

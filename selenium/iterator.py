@@ -73,7 +73,13 @@ book_config_file_name = 'config.yaml'
 # book config
 # book_number = '1341'
 
-output_file_name = 'output.py'
+yml = True
+if yml:
+    output_file_name = 'output.yml'
+else:
+    output_file_name = 'output.py'
+
+
 
 
 class LoginManager:
@@ -149,10 +155,22 @@ class LibraryWorker:
     def fill_part_pages(self, indent_count):
         element = self.driver.find_element_by_xpath('//div[b[contains(text(), "%s")]]' % part_pages)
         pages_array = self.get_pages_array_from_current_browser_pages(element)
-        self.output_string += '\t' * indent_count + '\'' + \
-                              str(min(pages_array)).replace('-', '~') + \
-                              '-' + \
-                              str(max(pages_array)).replace('-', '~') + '\''
+        if len(pages_array) == 0:
+            if yml:
+                self.output_string += '\t'*(indent_count + 1) + 'pages: \'\''
+            else:
+                self.output_string += '\t\'\''
+        else:
+            if yml:
+                self.output_string += '\t'*(indent_count + 1) + 'pages: '
+                self.output_string += '\'' + str(min(pages_array)).replace('-', '~') + \
+                                      '-' + \
+                                      str(max(pages_array)).replace('-', '~') + '\'\n'
+            else:
+                self.output_string += '\t' * indent_count + '\'' + \
+                                      str(min(pages_array)).replace('-', '~') + \
+                                      '-' + \
+                                      str(max(pages_array)).replace('-', '~') + '\''
         self.driver.execute_script('popupController.closeLastPopup()')
 
     def fill_parts(self, root, indent_count):
@@ -163,31 +181,51 @@ class LibraryWorker:
             return
 
         for part in parts:
-            self.output_string += '\t' * indent_count + 'Part(\''
+            if yml:
+                self.output_string += '\t' * indent_count + '- \n'
+            else:
+                self.output_string += '\t' * indent_count + 'Part(\''
             element = self.find_element_by_css_selector_wrapper(part, 'td[id*="%s"]' % part_name_in_list_id)
-            self.output_string += element.text + '\',\n'
+            if yml:
+                self.output_string += '\t' * (indent_count + 1) + 'name: \'' + element.text + '\'\n'
+            else:
+                self.output_string += element.text + '\',\n'
             element = self.find_element_by_xpath_wrapper(part, 'td/span[text()[normalize-space()]="%s"]' % change_name)
             element.click()
-            self.fill_part_pages(indent_count + 1)
-            self.output_string += '),\n'
+            self.fill_part_pages(indent_count)
+            if not yml:
+                self.output_string += '),\n'
 
     def process_chapter(self):
 
-        self.output_string += '\t\t[\n'
+        if not yml:
+            self.output_string += '\t\t[\n'
 
         element = self.find_element_by_xpath_wrapper(self.driver, '//div[b[contains(text(), "%s")]]' % chapter_parts)
 
-        self.fill_parts(element, 2)
+        if yml:
+            self.output_string += '\t\t\tparts:\n'
+            self.fill_parts(element, 4)
+        else:
+            self.fill_parts(element, 2)
 
-        self.output_string += '\t\t],\n'
+        if not yml:
+            self.output_string += '\t\t],\n'
 
         element = self.find_element_by_xpath_wrapper(self.driver, '//div[b[contains(text(), "%s")]]' % chapter_pages)
         pages_array = self.get_pages_array_from_current_browser_pages(element)
-        self.output_string += '\t\t\'' + \
-                              str(min(pages_array)).replace('-', '~') + \
-                              '-' + \
-                              str(max(pages_array)).replace('-', '~') + \
-                              '\''
+        if yml:
+            self.output_string += '\t\t\tpages: \'' + \
+                                  str(min(pages_array)).replace('-', '~') + \
+                                  '-' + \
+                                  str(max(pages_array)).replace('-', '~') + \
+                                  '\''
+        else:
+            self.output_string += '\t\t\'' + \
+                                  str(min(pages_array)).replace('-', '~') + \
+                                  '-' + \
+                                  str(max(pages_array)).replace('-', '~') + \
+                                  '\''
         self.output_string += '\n'
         self.driver.execute_script('popupController.closeLastPopup()')
 
@@ -209,40 +247,77 @@ class LibraryWorker:
         return pages_array
 
     def edit_book(self, book_number):
+
+        element = self.find_element_by_xpath_wrapper(self.driver, '//form/div/input[@name="%s"]' %
+                                                     book_name_input_name)
+        element.send_keys(iterator_config.book_name)
+        element.submit()
+
+
         element = self.driver.find_element_by_xpath(
             '//td[@id="%s" and contains(text(), "%s")]' % (book_number0_id, book_number))
         element = element.find_element_by_xpath('../td/span[text()[normalize-space()]="%s"]' % change_name)
         element.click()
 
-        self.output_string = 'Book(\'__name__\',\n\t[\n'
+        if yml:
+            self.output_string = 'book:\n\tname: \'\'\n'
+        else:
+            self.output_string = 'Book(\'__name__\',\n\t[\n'
+
 
         element = self.driver.find_element_by_xpath('//div[b[contains(text(), "%s")]]' % book_chapters)
         chapters = element.find_elements_by_xpath('table/tbody/tr')
+        if yml:
+            self.output_string += '\tchapters:\n'
         for chapter in chapters:
-            self.output_string += '\tChapter('
+            if yml:
+                self.output_string += '\t\t- \n'
+                self.output_string += '\t\t\tname: '
+            else:
+                self.output_string += '\tChapter('
 
             element = self.find_element_by_id_wrapper(chapter, chapter_name_td_id)
-            self.output_string += '\'%s\',\n' % element.text
+            if yml:
+                self.output_string += '\'%s\'\n' % element.text
+            else:
+                self.output_string += '\'%s\',\n' % element.text
 
             element = chapter.find_element_by_xpath('td/span[text()[normalize-space()]="%s"]' % change_name)
             element.click()
             self.process_chapter()
-            self.output_string += '\t),\n'
+            if not yml:
+                self.output_string += '\t),\n'
 
-        self.output_string += '\t],\n'
+        if yml:
+            self.output_string += '\n'
+        else:
+            self.output_string += '\t],\n'
 
         element = self.find_element_by_xpath_wrapper(self.driver, '//div[b[contains(text(), "%s")]]' % book_parts)
-        self.output_string += '\t[\n'
-        self.fill_parts(element, 1)
-        self.output_string += '\t],\n'
+        if yml:
+            self.output_string += '\tparts:\n'
+            self.fill_parts(element, 2)
+            self.output_string += '\n'
+        else:
+            self.output_string += '\t[\n'
+            self.fill_parts(element, 1)
+            self.output_string += '\t],\n'
 
         element = self.find_element_by_xpath_wrapper(self.driver, '//div[b[contains(text(), "%s")]]' % book_pages)
         pages_array = self.get_pages_array_from_current_browser_pages(element)
-        self.output_string += '\t\'' + \
-                              str(min(pages_array)).replace('-', '~') + \
-                              '-' + \
-                              str(max(pages_array)).replace('-', '~') + '\''
-        self.output_string += ')'
+        if yml:
+            self.output_string += '\tpages: '
+            self.output_string += '\'' + \
+                                  str(min(pages_array)).replace('-', '~') + \
+                                  '-' + \
+                                  str(max(pages_array)).replace('-', '~') + '\''
+            self.output_string += '\n'
+        else:
+            self.output_string += '\t\'' + \
+                                  str(min(pages_array)).replace('-', '~') + \
+                                  '-' + \
+                                  str(max(pages_array)).replace('-', '~') + '\''
+            self.output_string += ')'
 
 
 def __main__():
@@ -255,23 +330,42 @@ def __main__():
     library_worker.open_library()
     library_worker.edit_book(iterator_config.book_number)
 
-    library_worker.output_string = library_worker.output_string.replace('\t', '    ')
+    if yml:
+        library_worker.output_string = library_worker.output_string.replace('\t', '  ')
+    else:
+        library_worker.output_string = library_worker.output_string.replace('\t', '    ')
 
     with open(output_file_name, 'w') as f:
-        f.write('from collections import namedtuple\n\n')
-        f.write('Part = namedtuple("Part", "name pages")\n')
-        f.write('Chapter = namedtuple("Chapter", "name parts pages")\n')
-        f.write('Book = namedtuple("Book", "name chapters parts pages")\n\n')
+        if not yml:
+            f.write('from collections import namedtuple\n\n')
+            f.write('Part = namedtuple("Part", "name pages")\n')
+            f.write('Chapter = namedtuple("Chapter", "name parts pages")\n')
+            f.write('Book = namedtuple("Book", "name chapters parts pages")\n\n')
 
-        f.write('shift_modifier=%d\n\n' % -iterator_config.shift)
+        if yml:
+            f.write('shift_modifier: \'%d\'\n\n' % -iterator_config.shift)
+        else:
+            f.write('shift_modifier=%d\n\n' % -iterator_config.shift)
 
-        f.write('book_structure = ')
-        f.write(library_worker.output_string)
-        f.write('\n')
-        f.write('pages_dictionary = {\n')
-        for key in sorted(library_worker.pages_dictionary.keys()):
-            f.write('    ' + str(key) + ': \'' + library_worker.pages_dictionary[key] + '\',\n')
-        f.write('}')
+        if yml:
+            f.write(library_worker.output_string)
+            f.write('\n')
+        else:
+            f.write('book_structure = ')
+            f.write(library_worker.output_string)
+            f.write('\n')
+
+        if yml:
+            f.write('pages_dictionary:\n')
+            for key in sorted(library_worker.pages_dictionary.keys()):
+                f.write('  - \n')
+                f.write('    page: \'%s\'\n' % str(key))
+                f.write('    name: \'%s\'\n' % library_worker.pages_dictionary[key])
+        else:
+            f.write('pages_dictionary = {\n')
+            for key in sorted(library_worker.pages_dictionary.keys()):
+                f.write('    ' + str(key) + ': \'' + library_worker.pages_dictionary[key] + '\',\n')
+            f.write('}')
 
 
 if __name__ == '__main__':

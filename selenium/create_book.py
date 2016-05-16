@@ -108,6 +108,8 @@ class StructureWorker:
         return result
 
     def find_min_part_page(self, part):
+        if part.num is not None:
+            return int(part.num)
         array = self.make_pages_array(part.pages)
         return min(array)
 
@@ -115,6 +117,8 @@ class StructureWorker:
         array = self.make_pages_array(chapter.pages)
 
         for part in chapter.parts:
+            #print(part)
+            #print("\n")
             array += self.make_pages_array(part.pages)
 
         return min(array)
@@ -409,9 +413,9 @@ class LibraryWorker:
 
         file_manager = FileManager(input_data.files_path)
 
-        pdf_file_name = file_manager.get_file_path(page_num, input_data.pdf_extension)
+        """pdf_file_name = file_manager.get_file_path(page_num, input_data.pdf_extension)
         if pdf_file_name is None:
-            raise ValueError("can't find pdf file for page %d", page_num)
+            raise ValueError("can't find pdf file for page %d", page_num)"""
 
         html_file_name = file_manager.get_file_path(page_num, input_data.html_extension)
         if html_file_name is None:
@@ -479,7 +483,7 @@ class LibraryWorker:
             raise ValueError('Unknown page type for page %d' % page_num)
 
         # find and click "pdf file"
-        element = self.find_element_by_xpath_wrapper(form, 'div[b[contains(text(), "%s")]]' % pdf_file)
+        """element = self.find_element_by_xpath_wrapper(form, 'div[b[contains(text(), "%s")]]' % pdf_file)
         element = self.find_element_by_xpath_wrapper(element, 'span[button]')
         element.click()
 
@@ -508,7 +512,7 @@ class LibraryWorker:
         # find_element_by_xpath returns first element, find_elements_by_xpath returns a collection
         # we only need first, so it's ok
         element = self.find_element_by_xpath_wrapper(self.driver, '//ul[@id="%s"]/li/span' % file_container_id)
-        element.click()
+        element.click()"""
 
         # now we must add a html source
         element = self.find_element_by_xpath_wrapper(form,
@@ -748,6 +752,8 @@ class LibraryWorker:
                                                                      self.escape_for_xpath(part.name))
                 for existing_part in existing_parts:
                     if existing_part.text.strip() == part.name:
+                        #part_page_num = self.find_element_by_xpath_wrapper(existing_part,
+                        #                                                   '../td[text()[normalize-space()]="%s"]' % )
                         found = True
                         break
                 if found:
@@ -803,7 +809,17 @@ class LibraryWorker:
 
 
 def __main__():
-    driver = webdriver.Firefox()
+
+    fp = webdriver.FirefoxProfile()
+
+    #fp.set_preference("browser.startup.homepage_override.mstone", "ignore")
+    #fp.set_preference("startup.homepage_welcome_url.additional",  "about:blank")
+
+    fp.set_preference("browser.startup.homepage", "about:blank")
+    fp.set_preference("startup.homepage_welcome_url", "about:blank")
+    fp.set_preference("startup.homepage_welcome_url.additional", "about:blank")
+
+    driver = webdriver.Firefox(firefox_profile=fp)
 
     LoginManager(driver).login()
 
