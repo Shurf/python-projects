@@ -84,7 +84,7 @@ def write_page(file, page_num, page_name):
 def __main__():
     with open('output.yml', 'w') as f:
         f.write('pdf_regex: \'^' + page_selector + '\\' + pdf_extension + '$\'\n')
-        f.write('html_regex: \'^' + page_selector + '\\' + pdf_extension + '$\'\n')
+        f.write('html_regex: \'^' + page_selector + '\\' + html_extension + '$\'\n')
 
         f.write('shift_modifier: \'' + str(shift_modifier) + '\'\n')
 
@@ -95,7 +95,7 @@ def __main__():
         f.write('  tree_prefix: \n')
         f.write('  name: \n')
         f.write('  name_comment: \n')
-        f.write('  page_count: \'' + str(StructureWorker().find_max_book_page(book_structure)) + '\'\n')
+        f.write('  page_count: \'' + str(StructureWorker().find_max_book_page(book_structure) + 1 - StructureWorker().find_min_book_page(book_structure)) + '\'\n')
         f.write('  first_page: \'' + str(StructureWorker().find_min_book_page(book_structure)) + '\'\n')
         f.write('  synopsis: \n')
         f.write('  contents: \n')

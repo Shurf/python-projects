@@ -1,0 +1,137 @@
+pdf_regex: '^letters - (.+)\.pdf$'
+html_regex: '^letters - (.+)\.html$'
+shift_modifier: '0'
+book:
+  picture_path: 
+  book_file: 
+  name_prefix: 
+  tree_prefix: 
+  name: Письма Елены Петровны Блаватской
+  name_comment: 
+  page_count: '456'
+  first_page: '1'
+  synopsis: |
+            Издательство Ассоциации Духовного Единения "Золотой Век"<br/>
+            Гл. редактор Царёва Г.И.<br/>
+            Корректор Куликова Г.В.<br/>
+            Верстка Мусина Г.И.<br/>
+            Ответственный за выпуск Малышев Е.Н.<br/>
+            <br/>
+            Москва, 1995г.
+  contents: 
+    - 
+      name: 'Том I'
+      type: 'chapter'
+      page: '11'
+    - 
+      name: 'I. От Е.П.Б. к Г.С.0'
+      type: 'part'
+      page: '13'
+    - 
+      name: 'II. К Г.С.О. от «Луксорского Братства»'
+      type: 'part'
+      page: '20'
+    - 
+      name: 'III. «Важное примечание»'
+      type: 'part'
+      page: '24'
+    - 
+      name: 'IV. «Куча хороших новостей»'
+      type: 'part'
+      page: '27'
+    - 
+      name: 'V. «Что важно знать спиритуалистам»'
+      type: 'part'
+      page: '31'
+    - 
+      name: 'VI. Из альбома, 27 мая 1875 год'
+      type: 'part'
+      page: '40'
+    - 
+      name: 'VII. Из альбома, Е.П.Б. и масонское братство'
+      type: 'part'
+      page: '43'
+    - 
+      name: 'VIII. Е.П.Б. к Г.С.О. 21 мая 1871 год'
+      type: 'part'
+      page: '55'
+    - 
+      name: 'IX. «Героические женщины»'
+      type: 'part'
+      page: '66'
+    - 
+      name: 'X. Е.П.Б. генералу Липпитту'
+      type: 'part'
+      page: '73'
+    - 
+      name: 'XI. Е.П.Б. и Г.С.О. генералу Липпитту'
+      type: 'part'
+      page: '92'
+    - 
+      name: 'XII. М.Ч.Б. (Батанелли) генералу Липпитту'
+      type: 'part'
+      page: '115'
+    - 
+      name: 'XIII. Е.П.Б. генералу Липпитту'
+      type: 'part'
+      page: '120'
+    - 
+      name: 'XIV. Е.П.Б. к «Пробужденной»'
+      type: 'part'
+      page: '126'
+    - 
+      name: 'XV. Отрывки из Дневника'
+      type: 'part'
+      page: '136'
+    - 
+      name: 'XVI. Отрывки из Дневника'
+      type: 'part'
+      page: '160'
+    - 
+      name: 'XVII. Е.П.Б. к мадемуазель Н.А.Фадеевой'
+      type: 'part'
+      page: '191'
+    - 
+      name: 'XVIII. Е.П.Б. к мадемуазель Н.А.Фадеевой'
+      type: 'part'
+      page: '214'
+    - 
+      name: 'XIX. Е.П.Б. генералу Липпитту 1880 год'
+      type: 'part'
+      page: '258'
+    - 
+      name: 'Том II'
+      type: 'chapter'
+      page: '273'
+    - 
+      name: 'Введение'
+      type: 'part'
+      page: '275'
+    - 
+      name: 'Письмо Е.П.Б. капитану А. де Бурбону'
+      type: 'part'
+      page: '285'
+    - 
+      name: 'Письма Е.П.Б. князю A.M. Дондукову- Корсакову'
+      type: 'part'
+      page: '293'
+    - 
+      name: 'Клевета в печати на Е.П.Б'
+      type: 'part'
+      page: '423'
+    - 
+      name: 'Петиция Е.П.Б. князю A.M. Дондукову- Корсакову'
+      type: 'part'
+      page: '428'
+    - 
+      name: 'Письмо от мадемуазель Глинки князю A.M. Дондукову-Корсакову'
+      type: 'part'
+      page: '431'
+    - 
+      name: 'Письма Блаватской генералу Ф.Дж. Липпиту'
+      type: 'part'
+      page: '434'
+    - 
+      name: 'Страница 7. Предисловие'
+      type: 'page'
+      page: '7'

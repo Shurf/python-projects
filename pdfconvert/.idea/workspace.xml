@@ -2,22 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="054e2d5e-61ce-44a4-a642-646e15884596" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../selenium/configs/etika-2.1.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../selenium/configs/letters.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../selenium/configs/letters2.2.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../selenium/configs/letters2.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../selenium/configs/letters3.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../selenium/configs/msgr4.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../selenium/configs/think-bg.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../selenium/configs/think.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config.py" afterPath="$PROJECT_DIR$/config.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../selenium/create_book.py" afterPath="$PROJECT_DIR$/../selenium/create_book.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../selenium/configs/etika.py" afterPath="$PROJECT_DIR$/../selenium/configs/etika.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../selenium/convert_to_yml.py" afterPath="$PROJECT_DIR$/../selenium/convert_to_yml.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../selenium/input_data.py" afterPath="$PROJECT_DIR$/../selenium/input_data.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../selenium/iterator.py" afterPath="$PROJECT_DIR$/../selenium/iterator.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../selenium/iterator_config.py" afterPath="$PROJECT_DIR$/../selenium/iterator_config.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/script.py" afterPath="$PROJECT_DIR$/script.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../selenium/configs/td1.py" afterPath="$PROJECT_DIR$/../selenium/configs/td1.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../selenium/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../selenium/.idea/workspace.xml" />
     </list>
@@ -320,7 +306,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="873" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33194444" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
