@@ -1,5 +1,5 @@
 from input_data import *
-
+import re
 
 class StructureWorker:
     def make_pages_array(self, pages_string):
@@ -75,8 +75,11 @@ def write_part(file, part):
 
 
 def write_page(file, page_num, page_name):
+
+    new_name = re.sub(r'^Страница \d+\. ', '', page_name)
+
     file.write('  ' * 2 + '- \n')
-    file.write('  ' * 3 + 'name: \'' + page_name + '\'\n')
+    file.write('  ' * 3 + 'name: \'' + new_name + '\'\n')
     file.write('  ' * 3 + 'type: ' + '\'page\'' + '\n')
     file.write('  ' * 3 + 'page: ' + '\'' + str(page_num) + '\'\n')
 
