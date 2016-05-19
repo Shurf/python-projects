@@ -149,7 +149,7 @@ book:
       type: 'page'
       page: '184'
     -
-      name: 'DOESN'T MATTER'
+      name: "DOESN'T MATTER"
       type: 'page'
       page: '187'
     -
