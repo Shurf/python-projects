@@ -65,6 +65,8 @@ def __main__():
                 f.write('  ' * 3 + 'page: ' + '\'' + str(page_number) + '\'\n')
                 if tag == 'li':
                     f.write('  ' * 3 + 'type: ' + '\'page\'' + '\n')
+                elif tag == 'h4':
+                    f.write('  ' * 3 + 'type: ' + '\'chapter\'' + '\n')
                 else:
                     raise Exception(tag)
 
