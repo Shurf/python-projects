@@ -3,7 +3,7 @@ import os
 import shutil
 import re
 
-folder = r'/Users/schrecknetuser/_docx/books/agni_yoga/01_Zov'
+#folder = r'/Users/schrecknetuser/_docx/books/agni_yoga/01_Zov'
 prefix = 'AY_Zov_'
 page_selector = '(\d+)'
 html_extension = '.html'
@@ -13,21 +13,24 @@ description_file_name = 'description.ini'
 contents_file_name = 'cont.prs'
 
 
-def __main__():
-    destination_folder = folder + '_ready'
-    converted_folder = folder + '_converted'
+def process_folder(folder_to_process):
+    destination_folder = folder_to_process + '_ready'
+    converted_folder = folder_to_process + '_converted'
     if os.path.exists(destination_folder):
         shutil.rmtree(destination_folder)
     os.makedirs(destination_folder)
 
     config = configparser.ConfigParser()
-    file = open(os.path.join(folder, description_file_name), encoding='cp1251')
+    file = open(os.path.join(folder_to_process, description_file_name), encoding='cp1251')
     config.read_string('[dummy_section]\n' + file.read())
     file.close()
 
     shift = 1 - int(config['dummy_section']['firstfile'])
-    shutil.copyfile(os.path.join(folder, config['dummy_section']['oblojka']),
-                    os.path.join(destination_folder, config['dummy_section']['oblojka']))
+
+    if 'oblojka' in config['dummy_section']:
+        cover = config['dummy_section']['oblojka']
+        shutil.copyfile(os.path.join(folder_to_process, cover),
+                        os.path.join(destination_folder, cover))
 
     for html_file in os.listdir(converted_folder):
         regex = re.match("([^-\d]+)(-?\d+).html", html_file)
@@ -42,7 +45,10 @@ def __main__():
         f.write('html_regex: \'^' + prefix + page_selector + '\\' + html_extension + '$\'\n')
         f.write('book:\n')
         f.write('  has_pdf: \'false\'\n')
-        f.write('  picture_path: \'%s\'\n' % config['dummy_section']['oblojka'])
+        if 'oblojka' in config['dummy_section']:
+            f.write('  picture_path: \'%s\'\n' % config['dummy_section']['oblojka'])
+        else:
+            f.write('  picture_path: \n')
         f.write('  book_file: \n')
         f.write('  name_prefix: \n')
         f.write('  tree_prefix: \n')
@@ -54,7 +60,7 @@ def __main__():
         f.write('  synopsis: %s\n' % config['dummy_section']['description'])
         f.write('  contents: \n')
 
-        with open(os.path.join(folder, contents_file_name), encoding='cp1251') as contents:
+        with open(os.path.join(folder_to_process, contents_file_name), encoding='cp1251') as contents:
             for line in contents:
                 line_regex = re.match('<(.+)><(\d+)>(.+)', line)
                 if not line_regex:
@@ -64,12 +70,28 @@ def __main__():
                 f.write('  ' * 2 + '- \n')
                 f.write('  ' * 3 + 'name: \'' + line_regex.group(3) + '\'\n')
                 f.write('  ' * 3 + 'page: ' + '\'' + str(page_number) + '\'\n')
-                if tag == 'li':
+                if tag.lower() == 'li':
                     f.write('  ' * 3 + 'type: ' + '\'page\'' + '\n')
-                elif tag == 'h4':
+                elif tag.lower() == 'h2':
+                    f.write('  ' * 3 + 'type: ' + '\'part\'' + '\n')
+                elif tag.lower() == 'h4':
                     f.write('  ' * 3 + 'type: ' + '\'chapter\'' + '\n')
                 else:
                     raise Exception(tag)
+
+def __main__():
+    process_folder(r'/Users/schrecknetuser/_docx/books/pisma_mahatm')
+    #directory = r'/Users/schrecknetuser/_docx/books/uh/'
+    #for child in os.listdir(directory):
+    #    full_path = os.path.join(directory, child)
+    #    if not os.path.isdir(full_path):
+    #        continue
+    #    if re.match('.+_ready', full_path):
+    #        continue
+    #    if re.match('.+_converted', full_path):
+    #        continue
+    #    print(full_path)
+    #    process_folder(full_path)
 
 
 if __name__ == '__main__':
