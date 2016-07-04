@@ -73,7 +73,7 @@ book_config_file_name = 'config.yaml'
 # book config
 # book_number = '1341'
 
-yml = True
+yml = False
 if yml:
     output_file_name = 'output.yml'
 else:
@@ -214,18 +214,19 @@ class LibraryWorker:
 
         element = self.find_element_by_xpath_wrapper(self.driver, '//div[b[contains(text(), "%s")]]' % chapter_pages)
         pages_array = self.get_pages_array_from_current_browser_pages(element)
-        if yml:
-            self.output_string += '\t\t\tpages: \'' + \
-                                  str(min(pages_array)).replace('-', '~') + \
-                                  '-' + \
-                                  str(max(pages_array)).replace('-', '~') + \
-                                  '\''
-        else:
-            self.output_string += '\t\t\'' + \
-                                  str(min(pages_array)).replace('-', '~') + \
-                                  '-' + \
-                                  str(max(pages_array)).replace('-', '~') + \
-                                  '\''
+        if pages_array:
+            if yml:
+                self.output_string += '\t\t\tpages: \'' + \
+                                      str(min(pages_array)).replace('-', '~') + \
+                                      '-' + \
+                                      str(max(pages_array)).replace('-', '~') + \
+                                      '\''
+            else:
+                self.output_string += '\t\t\'' + \
+                                      str(min(pages_array)).replace('-', '~') + \
+                                      '-' + \
+                                      str(max(pages_array)).replace('-', '~') + \
+                                      '\''
         self.output_string += '\n'
         self.driver.execute_script('popupController.closeLastPopup()')
 

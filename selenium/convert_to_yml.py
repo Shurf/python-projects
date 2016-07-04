@@ -1,4 +1,4 @@
-from input_data import *
+from convert_input_data import *
 import re
 
 class StructureWorker:
@@ -23,7 +23,7 @@ class StructureWorker:
 
     def find_min_part_page(self, part):
         array = self.make_pages_array(part.pages)
-        return min(array)
+        return min(array) + shift_modifier
 
     def find_min_chapter_page(self, chapter):
         array = self.make_pages_array(chapter.pages)
@@ -31,7 +31,7 @@ class StructureWorker:
         for part in chapter.parts:
             array += self.make_pages_array(part.pages)
 
-        return min(array)
+        return min(array) + shift_modifier
 
     def find_min_book_page(self, book):
         array = self.make_pages_array(book.pages)
@@ -44,7 +44,7 @@ class StructureWorker:
             for part in chapter.parts:
                 array += self.make_pages_array(part.pages)
 
-        return min(array)
+        return min(array) + shift_modifier
 
     def find_max_book_page(self, book):
         array = self.make_pages_array(book.pages)
@@ -57,7 +57,7 @@ class StructureWorker:
             for part in chapter.parts:
                 array += self.make_pages_array(part.pages)
 
-        return max(array)
+        return max(array) + shift_modifier
 
 
 def write_chapter(file, chapter):

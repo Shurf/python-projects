@@ -3,7 +3,7 @@ import os
 import shutil
 import re
 
-folder = r'c:\work\other\_docx\books\agni_yoga\01_Zov'
+folder = r'/Users/schrecknetuser/_docx/books/agni_yoga/01_Zov'
 prefix = 'AY_Zov_'
 page_selector = '(\d+)'
 html_extension = '.html'
@@ -21,7 +21,7 @@ def __main__():
     os.makedirs(destination_folder)
 
     config = configparser.ConfigParser()
-    file = open(os.path.join(folder, description_file_name))
+    file = open(os.path.join(folder, description_file_name), encoding='cp1251')
     config.read_string('[dummy_section]\n' + file.read())
     file.close()
 
@@ -38,9 +38,10 @@ def __main__():
                         os.path.join(destination_folder, new_name))
 
     with open(os.path.join(destination_folder, 'config.yml'), 'w', encoding='utf-8') as f:
+        f.write('pdf_regex: \n')
         f.write('html_regex: \'^' + prefix + page_selector + '\\' + html_extension + '$\'\n')
-        f.write('has_pdf: \'false\'\n')
         f.write('book:\n')
+        f.write('  has_pdf: \'false\'\n')
         f.write('  picture_path: \'%s\'\n' % config['dummy_section']['oblojka'])
         f.write('  book_file: \n')
         f.write('  name_prefix: \n')
@@ -53,7 +54,7 @@ def __main__():
         f.write('  synopsis: %s\n' % config['dummy_section']['description'])
         f.write('  contents: \n')
 
-        with open(os.path.join(folder, contents_file_name)) as contents:
+        with open(os.path.join(folder, contents_file_name), encoding='cp1251') as contents:
             for line in contents:
                 line_regex = re.match('<(.+)><(\d+)>(.+)', line)
                 if not line_regex:

@@ -16,7 +16,7 @@ Book = namedtuple("Book", "name chapters parts pages")
 
 
 #files_path = 'c:\\5\\Архив\\'
-files_path = '/users/schrecknetuser/pdf-ocr/masters_of_wisdom_letters_2/'
+files_path = '/users/schrecknetuser/pdf-ocr/masters_of_wisdom_letters/'
 
 shift_modifier=0
 
@@ -26,7 +26,7 @@ html_extension = '.html'
 # book_number = '1431',
 # book_number = '1230',
 # book_number = '1220',
-book_number = '9007'
+book_number = '9008'
 
 book_structure = Book('__name__',
                       [],

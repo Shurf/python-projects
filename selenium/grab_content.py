@@ -2,12 +2,20 @@
 __author__ = 'schrecknetuser'
 
 from selenium import webdriver
-from input_data import *
+import input_data_grab
 import os
 import re
 import time
 
+import pyperclip
+from selenium.webdriver.common.keys import Keys
+
 # hardcoded values
+
+edit_html_source_name = 'Редактировать HTML-исходник'
+textarea_htmlsource_id = 'htmlSource'
+html_editor_frame_id = 'mce_'
+
 library_name = 'Библиотека'
 edit_content_name = 'Редактировать содержимое'
 edit_name = 'Редактировать'
@@ -101,7 +109,50 @@ class FileManager:
 class LibraryWorker:
     def __init__(self, driver):
         self.driver = driver
+        self.timeout = 3
         pass
+
+    def find_element_by_xpath_wrapper(self, parent, xpath):
+        try:
+            return parent.find_element_by_xpath(xpath)
+        except:
+            time.sleep(self.timeout)
+            return parent.find_element_by_xpath(xpath)
+
+    def find_elements_by_xpath_wrapper(self, parent, xpath):
+        try:
+            return parent.find_elements_by_xpath(xpath)
+        except:
+            time.sleep(self.timeout)
+            return parent.find_elements_by_xpath(xpath)
+
+    def find_element_by_id_wrapper(self, parent, id):
+        try:
+            return parent.find_element_by_id(id)
+        except:
+            time.sleep(self.timeout)
+            return parent.find_element_by_id(id)
+
+    def find_elements_by_id_wrapper(self, parent, id):
+        try:
+            return parent.find_elements_by_id(id)
+        except:
+            time.sleep(self.timeout)
+            return parent.find_elements_by_id(id)
+
+    def find_element_by_css_selector_wrapper(self, parent, css_selector):
+        try:
+            return parent.find_element_by_css_selector(css_selector)
+        except:
+            time.sleep(self.timeout)
+            return parent.find_element_by_css_selector(css_selector)
+
+    def find_elements_by_css_selector_wrapper(self, parent, css_selector):
+        try:
+            return parent.find_elements_by_css_selector(css_selector)
+        except:
+            time.sleep(self.timeout)
+            return parent.find_elements_by_css_selector(css_selector)
 
     def open_library(self):
         self.driver.find_element_by_xpath(
@@ -229,134 +280,6 @@ class LibraryWorker:
     def link_chapter_to_current_page(self):
         self.link_chapter_to_current_component(True)
 
-    def add_page(self, page_num):
-
-        pdf_file_name = file_manager = FileManager(files_path).get_file_path(page_num)
-        if pdf_file_name is None:
-            return
-
-        # find and click "add page" button
-        element = self.driver.find_element_by_xpath('//div[b[contains(text(), "%s")]]' % part_pages)
-        element = element.find_element_by_xpath('span[button]')
-        element.click()
-
-        # find and click "add page"
-        element = self.driver.find_element_by_xpath('//td[h1[text()[normalize-space()] = "%s"]]' % page_name)
-        element = element.find_element_by_xpath('span[text()[normalize-space()] = "%s"]' % add_name)
-        element.click()
-
-        #find main form for page
-        form = self.driver.find_element_by_xpath('//form[div/b[contains(text(), "%s")]]' % page_number_colon)
-
-        #input page number
-        element = form.find_element_by_id(page_number_id)
-        element.send_keys(page_num)
-
-        #find and click the button that links created part to current book
-        element = form.find_element_by_xpath('div[b[contains(text(), "%s")]]' % book_pages)
-        element = element.find_element_by_xpath('span[button]')
-        element.click()
-
-        #link book to this page
-        self.link_book_to_current_page()
-
-        #find and click the button that links created page to current chapter
-        element = form.find_element_by_xpath('div[b[contains(text(), "%s")]]' % chapter_pages)
-        element = element.find_element_by_xpath('span[button]')
-        element.click()
-
-        self.link_chapter_to_current_page()
-
-        #find and click the button that links created part to current chapter
-        element = form.find_element_by_xpath('div[b[contains(text(), "%s")]]' % part_pages)
-        element = element.find_element_by_xpath('span[button]')
-        element.click()
-
-        self.link_part_to_current_page()
-
-        #find and click "pdf file"
-        element = form.find_element_by_xpath('div[b[contains(text(), "%s")]]' % pdf_file)
-        element = element.find_element_by_xpath('span[button]')
-        element.click()
-
-        #find and click "add file"
-        element = self.driver.find_element_by_xpath('//td[h3[text()[normalize-space()] = "%s"]]' % files_name)
-        element = element.find_element_by_xpath('span[text()[normalize-space()] = "%s"]' % add_file_name)
-        element.click()
-
-        #show plain uploader that we can work with
-        self.driver.execute_script(
-            "util.hideElements('uploadContainerFS', 'uploadContainerURI'); 	util.showElement('uploadContainerFSOld')")
-
-        #put file name to the hidden input field
-        element = self.driver.find_element_by_xpath('//input[@type="%s" and @name="%s"]' % (input_files_type, input_files_name))
-        element.send_keys(pdf_file_name)
-        element.submit()
-
-        # find_element_by_xpath returns first element, find_elements_by_xpath returns a collection
-        # we only need first, so it's ok
-        element = self.driver.find_element_by_xpath('//ul[@id="%s"]/li/span' % file_container_id)
-        element.click()
-
-    def add_part(self, part, part_num):
-        # find and click "add part" button
-        element = self.driver.find_element_by_xpath('//div[b[contains(text(), "%s")]]' % chapter_parts)
-        element = element.find_element_by_xpath('span[button]')
-        element.click()
-
-        #find and click "add button"
-        element = self.driver.find_element_by_xpath('//td[h1[text()[normalize-space()] = "%s"]]' % part_name)
-        element = element.find_element_by_xpath('span[text()[normalize-space()] = "%s"]' % add_name)
-        element.click()
-
-        #find main form for part
-        form = self.driver.find_element_by_xpath('//form[div/b[contains(text(), "%s")]]' % part_number_colon)
-
-        #input part number
-        element = form.find_element_by_id(part_number_id)
-        element.send_keys(part_num)
-
-        #input default page name to make search easier - later this default name is replaced
-        element = form.find_element_by_id(part_name_id)
-        element.send_keys(default_part_name)
-
-        #find and click the button that links created part to current book
-        element = form.find_element_by_xpath('div[b[contains(text(), "%s")]]' % book_parts)
-        element = element.find_element_by_xpath('span[button]')
-        element.click()
-
-        #link book to this part
-        self.link_book_to_current_part()
-
-        #find and click the button that links created part to current chapter
-        element = form.find_element_by_xpath('div[b[contains(text(), "%s")]]' % chapter_parts)
-        element = element.find_element_by_xpath('span[button]')
-        element.click()
-
-        self.link_chapter_to_current_part()
-
-        #we have to submit the form and then reopen it because otherwise we won't be able to select it
-        form.submit()
-        self.find_current_part()
-        self.edit_found_part()
-
-        for page_num in range(part.first_page, part.last_page):
-            self.add_page(page_num)
-            break
-
-            #force apply changes
-            #self.driver.execute_script("popupController.reloadLastPopup(false)")
-            #
-            ##find main form once again
-            #form = self.driver.find_element_by_xpath('//form[div/b[contains(text(), "%s")]]' % part_number_colon)
-            #
-            ##change name to normal
-            #element = form.find_element_by_id(part_name_id)
-            #element.clear()
-            #element.send_keys(part.name)
-            #form.submit()
-            #
-            #self.close_parts_window()
 
     def process_page(self):
 
@@ -365,55 +288,41 @@ class LibraryWorker:
 
         #input page number
         element = form.find_element_by_id(page_number_id)
-        try:
-            page_num = int(element.get_attribute('value')) - 1
-        except:
-            self.driver.execute_script('popupController.closeLastPopup()')
-            return
 
-        #find and click "pdf file"
-        element = form.find_element_by_xpath('div[b[contains(text(), "%s")]]' % pdf_file)
-        try:
-            element = element.find_element_by_xpath('span[button[text()[normalize-space()]="%s"]]' % choose_name)
-        except:
-            element = None
+        page_num = int(element.get_attribute('value'))
 
-        if element is None:
-            self.driver.execute_script('popupController.closeLastPopup()')
-            return
-
-        file_name = file_name_prefix + str(page_num) + file_name_postfix
-        file_name = os.path.join(files_path, file_name)
-        if not os.path.exists(file_name):
-            self.driver.execute_script('popupController.closeLastPopup()')
-            return
-
+        element = self.find_element_by_xpath_wrapper(form,
+                                                     'div/span/table/tbody/tr/td/table/tbody/tr/td/a[@title="%s"]' % edit_html_source_name)
         element.click()
 
-        #find and click "add file"
-        try:
-            element = self.driver.find_element_by_xpath('//td[h3[text()[normalize-space()] = "%s"]]' % files_name)
-        except:
-            time.sleep(5)
-            element = self.driver.find_element_by_xpath('//td[h3[text()[normalize-space()] = "%s"]]' % files_name)
-        element = element.find_element_by_xpath('span[text()[normalize-space()] = "%s"]' % add_file_name)
-        element.click()
+        self.driver.switch_to_frame(
+            self.find_element_by_css_selector_wrapper(self.driver, 'iframe[id*="%s"]' % html_editor_frame_id))
 
-        #show plain uploader that we can work with
-        self.driver.execute_script(
-            "util.hideElements('uploadContainerFS', 'uploadContainerURI'); 	util.showElement('uploadContainerFSOld')")
+        html_file_name = os.path.join(
+            input_data_grab.book_path,
+            input_data_grab.html_prefix + str(page_num).zfill(4) + input_data_grab.html_postfix)
+        with open(html_file_name, 'w') as file:
+            # element = self.driver.find_element_by_xpath('//form/textarea')
+            element = self.find_element_by_xpath_wrapper(self.driver,
+                                                         '//form/textarea[@name="%s"]' % textarea_htmlsource_id)
 
-        #put file name to the hidden input field
-        element = self.driver.find_element_by_xpath('//input[@type="%s" and @name="%s"]' % (input_files_type, input_files_name))
-        element.send_keys(file_name)
-        element.submit()
+            if os.name == 'posix':
+                element.send_keys(Keys.COMMAND, 'a')
+                element.send_keys(Keys.COMMAND, 'c')
+            else:
+                element.send_keys(Keys.CONTROL, 'a')
+                element.send_keys(Keys.CONTROL, 'c')
+            file.write('<html><body>\n' + pyperclip.paste() + '\n</body></html>')
 
-        # find_element_by_xpath returns first element, find_elements_by_xpath returns a collection
-        # we only need first, so it's ok
-        element = self.driver.find_element_by_xpath('//ul[@id="%s"]/li/span' % file_container_id)
-        element.click()
+            #self.driver.execute_script('tinyMCEPopup.close();')
+            #print('!')
+            element = self.find_element_by_xpath_wrapper(self.driver,
+                                                         '//form/div/div/input[@name="%s"]' % "cancel")
+            element.click()
 
-        form.submit()
+        self.driver.switch_to_default_content()
+
+        self.driver.execute_script('popupController.closeLastPopup();')
 
     def process_part(self):
         element = self.driver.find_element_by_xpath('//div[b[contains(text(), "%s")]]' % part_pages)
@@ -443,56 +352,25 @@ class LibraryWorker:
 
         self.driver.execute_script('popupController.closeLastPopup()')
 
-        """element = self.driver.find_element_by_xpath('//div[b[contains(text(), "%s")]]' % book_chapters)
-        chapters = element.find_elements_by_xpath('table/tbody/tr')
-        element.click()
 
-        element = self.driver.find_element_by_xpath('//td[h1[text()[normalize-space()] = "%s"]]' % chapter_name)
-        element = element.find_element_by_xpath('span[text()[normalize-space()] = "%s"]' % add_name)
-        element.click()
-
-        form = self.driver.find_element_by_xpath('//form[div/b[contains(text(), "%s")]]' % chapter_number_colon)
-        element = form.find_element_by_id(chapter_number_id)
-        element.send_keys(self.get_first_chapter_page_num(chapter))
-
-        element = form.find_element_by_id(chapter_name_id)
-        element.send_keys(default_chapter_name)
-
-        element = form.find_element_by_xpath('div[b[contains(text(), "%s")]]' % book_chapters)
-        element = element.find_element_by_xpath('span[button]')
-        element.click()
-
-        self.link_book_to_current_chapter()
-        # we have to submit the form and then reopen it because otherwise we won't be able to select it
-        form.submit()
-        self.find_current_chapter()
-        self.edit_found_chapter()
-
-        part_num = 1
-        for part in chapter.parts:
-            self.add_part(part, part_num)
-            part_num += 1
-            break
-
-            #force apply changes
-            #self.driver.execute_script("popupController.reloadLastPopup(false)")
-            #
-            ##find form again
-            #form = self.driver.find_element_by_xpath('//form[div/b[contains(text(), "%s")]]' % chapter_number_colon)
-            #
-            ##set normal chapter name
-            #element = form.find_element_by_id(chapter_name_id)
-            #element.clear()
-            #element.send_keys(chapter.name)
-            #form.submit()"""
-
-
-
+    def find_element_by_xpath_wrapper(self, parent, xpath):
+        try:
+            return parent.find_element_by_xpath(xpath)
+        except:
+            time.sleep(self.timeout)
+            return parent.find_element_by_xpath(xpath)
 
     def edit_book(self, book_number):
-        element = self.driver.find_element_by_xpath(
-            '//td[@id="%s" and contains(text(), "%s")]' % (book_number0_id, book_number))
-        element = element.find_element_by_xpath('../td/span[text()[normalize-space()]="%s"]' % change_name)
+        element = self.find_element_by_xpath_wrapper(self.driver, '//form/div/input[@name="%s"]' %
+                                                     book_name_input_name)
+        element.send_keys(input_data_grab.book_name)
+        element.submit()
+
+        element = self.find_element_by_xpath_wrapper(self.driver,
+                                                     '//td[@id="%s" and contains(text(), "%s")]' % (
+                                                         book_number0_id, book_number))
+        element = self.find_element_by_xpath_wrapper(element,
+                                                     '../td/span[text()[normalize-space()]="%s"]' % change_name)
         element.click()
 
         element = self.driver.find_element_by_xpath('//div[b[contains(text(), "%s")]]' % book_chapters)
@@ -518,7 +396,7 @@ def __main__():
     library_worker = LibraryWorker(driver)
 
     library_worker.open_library()
-    library_worker.edit_book(book_number)
+    library_worker.edit_book(input_data_grab.book_number)
 
 
 if __name__ == '__main__':

@@ -1,14 +1,14 @@
 # coding=utf-8
 __author__ = 'd.yavno'
 
-pdf_files_directory = '/users/schrecknetuser/pdf-ocr/letters2'
+pdf_files_directory = '/users/schrecknetuser/pdf-ocr/pdf-new/msgr/dum1.pdf/'
 pdf2htmlex_directory = ''
 dest_dir_specifier = '--dest-dir='
 #converter_name = '/users/schrecknetuser/pdf2htmlex/pdf2htmlEX/pdf2htmlex'
 converter_name = 'pdf2htmlex'
 text_converter_name = 'pdftotext'
 additional_options = [
-    '--fallback=0',
+    '--fallback=1',
     '--zoom=1.5',
     #'--heps=1',
     '--data-dir=/usr/local/opt/pdf2htmlex/share/pdf2htmlEX/',
