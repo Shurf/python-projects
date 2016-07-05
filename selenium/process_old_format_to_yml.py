@@ -4,7 +4,7 @@ import shutil
 import re
 
 #folder = r'/Users/schrecknetuser/_docx/books/agni_yoga/01_Zov'
-prefix = 'AY_Zov_'
+#prefix = 'AY_Zov_'
 page_selector = '(\d+)'
 html_extension = '.html'
 config_file_name = 'description.ini'
@@ -42,7 +42,7 @@ def process_folder(folder_to_process):
 
     with open(os.path.join(destination_folder, 'config.yml'), 'w', encoding='utf-8') as f:
         f.write('pdf_regex: \n')
-        f.write('html_regex: \'^' + prefix + page_selector + '\\' + html_extension + '$\'\n')
+        f.write('html_regex: \'^' + config['dummy_section']['prefix'] + page_selector + '\\' + html_extension + '$\'\n')
         f.write('book:\n')
         f.write('  has_pdf: \'false\'\n')
         if 'oblojka' in config['dummy_section']:
@@ -81,17 +81,17 @@ def process_folder(folder_to_process):
 
 def __main__():
     process_folder(r'/Users/schrecknetuser/_docx/books/pisma_mahatm')
-    #directory = r'/Users/schrecknetuser/_docx/books/uh/'
-    #for child in os.listdir(directory):
-    #    full_path = os.path.join(directory, child)
-    #    if not os.path.isdir(full_path):
-    #        continue
-    #    if re.match('.+_ready', full_path):
-    #        continue
-    #    if re.match('.+_converted', full_path):
-    #        continue
-    #    print(full_path)
-    #    process_folder(full_path)
+    """directory = r'/Users/schrecknetuser/_docx/books/uh/'
+    for child in os.listdir(directory):
+        full_path = os.path.join(directory, child)
+        if not os.path.isdir(full_path):
+            continue
+        if re.match('.+_ready', full_path):
+            continue
+        if re.match('.+_converted', full_path):
+            continue
+        print(full_path)
+        process_folder(full_path)"""
 
 
 if __name__ == '__main__':
