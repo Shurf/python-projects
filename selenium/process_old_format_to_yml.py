@@ -33,7 +33,7 @@ def process_folder(folder_to_process):
                         os.path.join(destination_folder, cover))
 
     for html_file in os.listdir(converted_folder):
-        regex = re.match("([^-\d]+)(-?\d+).html", html_file)
+        regex = re.match("(" + config['dummy_section']['prefix'] +  ")(-?\d+).html", html_file)
         if not regex:
             continue
         new_name = regex.group(1) + str(int(regex.group(2)) + shift).zfill(4) + '.html'
@@ -62,7 +62,7 @@ def process_folder(folder_to_process):
 
         with open(os.path.join(folder_to_process, contents_file_name), encoding='cp1251') as contents:
             for line in contents:
-                line_regex = re.match('<(.+)><(\d+)>(.+)', line)
+                line_regex = re.match('\t*<(.+)><(\d+)>(.+)', line)
                 if not line_regex:
                     continue
                 page_number = int(line_regex.group(2))
@@ -80,8 +80,16 @@ def process_folder(folder_to_process):
                     raise Exception(tag)
 
 def __main__():
-    process_folder(r'/Users/schrecknetuser/_docx/books/pisma_mahatm')
-    """directory = r'/Users/schrecknetuser/_docx/books/uh/'
+
+    """dir = r'/Users/schrecknetuser/_docx/books/roerich/let_eir2'
+    for html_file in os.listdir(dir):
+        regex = re.match(".+\.html", html_file)
+        if not regex:
+            continue
+        os.system("iconv -f cp1251 -t utf-8 < " + os.path.join(dir, html_file) + " > " + os.path.join(dir+"_ready", html_file))"""
+
+    process_folder(r'/Users/schrecknetuser/_docx/books/roerich/osnbudd')
+    """directory = r'/Users/schrecknetuser/_docx/books/roerich/'
     for child in os.listdir(directory):
         full_path = os.path.join(directory, child)
         if not os.path.isdir(full_path):
