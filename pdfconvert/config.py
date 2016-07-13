@@ -1,7 +1,7 @@
 # coding=utf-8
 __author__ = 'd.yavno'
 
-pdf_files_directory = '/users/schrecknetuser/pdf-ocr/pdf-new/msgr/dum1.pdf/'
+pdf_files_directory = '/users/schrecknetuser/pdf-ocr/тайная доктрина Елены Блаватской/td3_copy/'
 pdf2htmlex_directory = ''
 dest_dir_specifier = '--dest-dir='
 #converter_name = '/users/schrecknetuser/pdf2htmlex/pdf2htmlEX/pdf2htmlex'

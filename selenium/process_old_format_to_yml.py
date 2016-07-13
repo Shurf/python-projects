@@ -88,7 +88,7 @@ def __main__():
             continue
         os.system("iconv -f cp1251 -t utf-8 < " + os.path.join(dir, html_file) + " > " + os.path.join(dir+"_ready", html_file))"""
 
-    process_folder(r'/Users/schrecknetuser/_docx/books/roerich/osnbudd')
+    process_folder(r'/Users/schrecknetuser/_docx/books/roerich/let_eir2')
     """directory = r'/Users/schrecknetuser/_docx/books/roerich/'
     for child in os.listdir(directory):
         full_path = os.path.join(directory, child)
