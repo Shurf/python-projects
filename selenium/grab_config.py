@@ -203,7 +203,7 @@ class LibraryWorker:
         self.get_pages_array_from_current_browser_pages(element)
 
 
-def grab_content(book_number, book_name, output_folder):
+def grab_content(book_number, book_name, output_folder, yml_name='config.yml'):
     driver = webdriver.Firefox()
 
     LoginManager(driver).login()
@@ -213,7 +213,7 @@ def grab_content(book_number, book_name, output_folder):
     library_worker.open_library()
     library_worker.edit_book(book_number, book_name)
     driver.close()
-    with open(os.path.join(output_folder, 'config.yml'), 'w', encoding='utf-8') as f:
+    with open(os.path.join(output_folder, yml_name), 'w', encoding='utf-8') as f:
         f.write('pdf_regex: \'^(\d+).pdf$\'\n')
         f.write('html_regex: \'^(.+).html$\'\n')
         f.write('book:\n')
