@@ -5,6 +5,8 @@ from selenium import webdriver
 import os
 import re
 import time
+import shutil
+import subprocess
 
 # hardcoded values
 library_name = 'Библиотека'
@@ -134,6 +136,8 @@ class LibraryWorker:
         for part in parts:
             element = self.find_element_by_css_selector_wrapper(part, 'td[id*="%s"]' % part_name_in_list_id)
             part_name = element.text
+            element = self.find_element_by_xpath_wrapper(part, 'td/span[text()[normalize-space()]="%s"]' % change_name)
+            element.click()
             min_part_page = self.fill_part_pages()
             if min_part_page < min_page_of_parts:
                 min_page_of_parts = min_part_page
@@ -202,8 +206,48 @@ class LibraryWorker:
         element = self.find_element_by_xpath_wrapper(self.driver, '//div[b[contains(text(), "%s")]]' % book_pages)
         self.get_pages_array_from_current_browser_pages(element)
 
+class PdfConverter:
+    def __init__(self, pdf_files_path, additional_options):
+        self.pdf_files_path = pdf_files_path
+        self.converter_name = 'pdf2htmlex'
+        self.additional_options = additional_options
+        self.tmp_file_name = 'tmp.tmp'
 
-def grab_content(book_number, book_name, output_folder, yml_name='config.yml'):
+    def convert(self):
+        # command_line = os.path.join(self.pdf_converter_path, self.converter_name) + ' '
+        #command_line += self.dest_dir_specifier + self.pdf_files_path + ' '
+        for file_name in os.listdir(self.pdf_files_path):
+            full_path = os.path.join(self.pdf_files_path, file_name)
+            if not os.path.isfile(full_path):
+                continue
+            match = re.search('(.+)\.pdf', file_name)
+            if not match:
+                continue
+
+            args = [self.converter_name]
+            for option in self.additional_options:
+                args.append(option)
+            args.append('--dest-dir=' + self.pdf_files_path)
+            args.append(full_path)
+
+            print("Converting %s" % full_path)
+            subprocess.call(args)
+
+def grab_content(book_number, book_name, input_folder, output_folder, yml_name='config.yml'):
+
+    new_folder = os.path.join(output_folder, os.path.basename(os.path.normpath(input_folder)))
+    if os.path.exists(new_folder):
+        shutil.rmtree(new_folder)
+    os.makedirs(new_folder)
+
+    i = 1
+
+    for file in sorted(os.listdir(input_folder), key=lambda x: x.lower()):
+        if file[0] == '.':
+            continue
+        shutil.copyfile(os.path.join(input_folder, file), os.path.join(new_folder, str(i).zfill(4) + '.pdf'))
+        i += 1
+
     driver = webdriver.Firefox()
 
     LoginManager(driver).login()
@@ -213,7 +257,7 @@ def grab_content(book_number, book_name, output_folder, yml_name='config.yml'):
     library_worker.open_library()
     library_worker.edit_book(book_number, book_name)
     driver.close()
-    with open(os.path.join(output_folder, yml_name), 'w', encoding='utf-8') as f:
+    with open(os.path.join(new_folder, yml_name), 'w', encoding='utf-8') as f:
         f.write('pdf_regex: \'^(\d+).pdf$\'\n')
         f.write('html_regex: \'^(.+).html$\'\n')
         f.write('book:\n')
@@ -233,10 +277,193 @@ def grab_content(book_number, book_name, output_folder, yml_name='config.yml'):
             f.write('  ' * 3 + 'name: \'' + contents_element.name + '\'\n')
             f.write('  ' * 3 + 'page: ' + '\'' + str(contents_element.page) + '\'\n')
             f.write('  ' * 3 + 'type: \'' + contents_element.element_type + '\'\n')
+    PdfConverter(new_folder,
+                 ['--fallback=1', '--zoom=1.5',
+                 '--data-dir=/usr/local/opt/pdf2htmlex/share/pdf2htmlEX/',
+                 '--stretch-narrow-glyph=1',
+                 '--process-outline=0']).convert()
 
 
 def __main__():
-    grab_content('4101', 'Гессер хан', os.getcwd())
+
+    grab_content(
+        '4102',
+        'Чаша Христа',
+        '/Users/schrecknetuser/Downloads/Документы/1. Мысль/2. Чаша Христа',
+        '/Users/schrecknetuser/pdf-ocr/documents/Мысль')
+
+    grab_content(
+        '4103',
+        'Канченджанга',
+        '/Users/schrecknetuser/Downloads/Документы/1. Мысль/3. Канченджанга',
+        '/Users/schrecknetuser/pdf-ocr/documents/Мысль')
+
+    grab_content(
+        '4104',
+        'Весть Шамбалы',
+        '/Users/schrecknetuser/Downloads/Документы/1. Мысль/4. весть шамбалы',
+        '/Users/schrecknetuser/pdf-ocr/documents/Мысль')
+
+    grab_content(
+        '4105',
+        'Молния. Зов неба',
+        '/Users/schrecknetuser/Downloads/Документы/1. Мысль/5. Молния. Зов неба.',
+        '/Users/schrecknetuser/pdf-ocr/documents/Мысль')
+
+    grab_content(
+        '4106',
+        'Распятое человечество',
+        '/Users/schrecknetuser/Downloads/Документы/1. Мысль/6. распятое человечество',
+        '/Users/schrecknetuser/pdf-ocr/documents/Мысль')
+
+    grab_content(
+        '4107',
+        'Пиета',
+        '/Users/schrecknetuser/Downloads/Документы/1. Мысль/7. Пиета',
+        '/Users/schrecknetuser/pdf-ocr/documents/Мысль')
+
+    grab_content(
+        '4108',
+        'Завет учителя',
+        '/Users/schrecknetuser/Downloads/Документы/1. Мысль/8. Завет учителя',
+        '/Users/schrecknetuser/pdf-ocr/documents/Мысль')
+
+    grab_content(
+        '4109',
+        'Мысль',
+        '/Users/schrecknetuser/Downloads/Документы/1. Мысль/9. Мысль',
+        '/Users/schrecknetuser/pdf-ocr/documents/Мысль')
+
+    grab_content(
+        '4110',
+        'Красные кони',
+        '/Users/schrecknetuser/Downloads/Документы/1. Мысль/10. Красные кони',
+        '/Users/schrecknetuser/pdf-ocr/documents/Мысль')
+
+
+
+
+    grab_content(
+        '4201',
+        'На вершинах',
+        '/Users/schrecknetuser/Downloads/Документы/2. Армагеддон/1. на вершинах',
+        '/Users/schrecknetuser/pdf-ocr/documents/Армагеддон')
+
+    grab_content(
+        '4202',
+        'Вестник',
+        '/Users/schrecknetuser/Downloads/Документы/2. Армагеддон/2. вестник',
+        '/Users/schrecknetuser/pdf-ocr/documents/Армагеддон')
+
+    grab_content(
+        '4203',
+        'Победа',
+        '/Users/schrecknetuser/Downloads/Документы/2. Армагеддон/3. победа',
+        '/Users/schrecknetuser/pdf-ocr/documents/Армагеддон')
+
+    grab_content(
+        '4204',
+        'Бэда-проповедник',
+        '/Users/schrecknetuser/Downloads/Документы/2. Армагеддон/4. Бэда проповедник',
+        '/Users/schrecknetuser/pdf-ocr/documents/Армагеддон')
+
+    grab_content(
+        '4205',
+        'Сошествие во Ад',
+        '/Users/schrecknetuser/Downloads/Документы/2. Армагеддон/5. сошествие во ад',
+        '/Users/schrecknetuser/pdf-ocr/documents/Армагеддон')
+
+    grab_content(
+        '4206',
+        'Мы сами строим свои тюрьмы',
+        '/Users/schrecknetuser/Downloads/Документы/2. Армагеддон/6. мы сами строим',
+        '/Users/schrecknetuser/pdf-ocr/documents/Армагеддон')
+
+    grab_content(
+        '4207',
+        'Ты не должен видеть этого пламени',
+        '/Users/schrecknetuser/Downloads/Документы/2. Армагеддон/7. ты не должен',
+        '/Users/schrecknetuser/pdf-ocr/documents/Армагеддон')
+
+    grab_content(
+        '4208',
+        'Я двигаюсь среди этих теней',
+        '/Users/schrecknetuser/Downloads/Документы/2. Армагеддон/8. я двигаюсь',
+        '/Users/schrecknetuser/pdf-ocr/documents/Армагеддон')
+
+    grab_content(
+        '4209',
+        'Ангел последний',
+        '/Users/schrecknetuser/Downloads/Документы/2. Армагеддон/9. Ангел последний',
+        '/Users/schrecknetuser/pdf-ocr/documents/Армагеддон')
+
+    grab_content(
+        '4210',
+        'Молчание',
+        '/Users/schrecknetuser/Downloads/Документы/2. Армагеддон/10. молчание',
+        '/Users/schrecknetuser/pdf-ocr/documents/Армагеддон')
+
+
+    grab_content(
+        '4301',
+        'Чантанг',
+        '/Users/schrecknetuser/Downloads/Документы/3. Сознание красоты спасет/1. Чантанг',
+        '/Users/schrecknetuser/pdf-ocr/documents/Сознание красоты спасет')
+
+    grab_content(
+        '4302',
+        'Чинтамани',
+        '/Users/schrecknetuser/Downloads/Документы/3. Сознание красоты спасет/2. Чинтамани',
+        '/Users/schrecknetuser/pdf-ocr/documents/Сознание красоты спасет')
+
+    grab_content(
+        '4303',
+        'Жемчуг исканий',
+        '/Users/schrecknetuser/Downloads/Документы/3. Сознание красоты спасет/3. Жемчуг исканий',
+        '/Users/schrecknetuser/pdf-ocr/documents/Сознание красоты спасет')
+
+    grab_content(
+        '4304',
+        'Священная флейта',
+        '/Users/schrecknetuser/Downloads/Документы/3. Сознание красоты спасет/4. Священная флейта',
+        '/Users/schrecknetuser/pdf-ocr/documents/Сознание красоты спасет')
+
+    grab_content(
+        '4305',
+        'Знаки Христа',
+        '/Users/schrecknetuser/Downloads/Документы/3. Сознание красоты спасет/5. Знаки Христа',
+        '/Users/schrecknetuser/pdf-ocr/documents/Сознание красоты спасет')
+
+    grab_content(
+        '4306',
+        'Путь на Кайлас',
+        '/Users/schrecknetuser/Downloads/Документы/3. Сознание красоты спасет/6. Путь на Кайлас',
+        '/Users/schrecknetuser/pdf-ocr/documents/Сознание красоты спасет')
+
+    grab_content(
+        '4307',
+        'Добрый самаритянин',
+        '/Users/schrecknetuser/Downloads/Документы/3. Сознание красоты спасет/7. Добрый самаритянин',
+        '/Users/schrecknetuser/pdf-ocr/documents/Сознание красоты спасет')
+
+    grab_content(
+        '4308',
+        'Гуру Камба-ла',
+        '/Users/schrecknetuser/Downloads/Документы/3. Сознание красоты спасет/8. Гуру Камба-ла',
+        '/Users/schrecknetuser/pdf-ocr/documents/Сознание красоты спасет')
+
+    grab_content(
+        '4309',
+        'И мы приближаемся',
+        '/Users/schrecknetuser/Downloads/Документы/3. Сознание красоты спасет/9. И мы приближаемся',
+        '/Users/schrecknetuser/pdf-ocr/documents/Сознание красоты спасет')
+
+    grab_content(
+        '4310',
+        'Заклинатель огня',
+        '/Users/schrecknetuser/Downloads/Документы/3. Сознание красоты спасет/10. Заклинатель огня',
+        '/Users/schrecknetuser/pdf-ocr/documents/Сознание красоты спасет')
+
 
 
 if __name__ == '__main__':

@@ -48,18 +48,24 @@ def convert_and_create_contents(dir):
             document = Document(os.path.join(renamed_folder, file))
             string = ''
             page_number = str(int(file.split('.')[0]))
+            j = 0
             for paragraph in document.paragraphs:
                 if not paragraph.text:
                     continue
+                #j += 1
+                #if j == 1:
+                #    continue
                 string += "'%s'" % paragraph.text
                 break
+                #if j == 3:
+                #    break
             f.write('  ' * 2 + '- \n')
-            f.write('  ' * 3 + 'name: ' + string + '\n')
+            f.write('  ' * 3 + 'name: ' + string.replace("\'\'", " ") + '\n')
             f.write('  ' * 3 + 'page: ' + '\'' + page_number + '\'\n')
             f.write('  ' * 3 + 'type: ' + '\'page\'' + '\n')
 
 def __main__():
-    convert_and_create_contents('/users/schrecknetuser/pdf-ocr/masters_of_wisdom_letters_2')
+    convert_and_create_contents('/users/schrecknetuser/Downloads/living_ethics_1')
 
 
 

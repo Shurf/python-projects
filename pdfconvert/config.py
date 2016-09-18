@@ -1,7 +1,7 @@
 # coding=utf-8
 __author__ = 'd.yavno'
 
-pdf_files_directory = '/users/schrecknetuser/pdf-ocr/тайная доктрина Елены Блаватской/td3_copy/'
+pdf_files_directory = '/users/schrecknetuser/Downloads/1'
 pdf2htmlex_directory = ''
 dest_dir_specifier = '--dest-dir='
 #converter_name = '/users/schrecknetuser/pdf2htmlex/pdf2htmlEX/pdf2htmlex'
@@ -13,6 +13,7 @@ additional_options = [
     #'--heps=1',
     '--data-dir=/usr/local/opt/pdf2htmlex/share/pdf2htmlEX/',
     '--stretch-narrow-glyph=1',
+    '--process-outline=0'
     #'--space-threshold=10',
     #'--space-as-offset=1',
     #'--optimize-text=1'
