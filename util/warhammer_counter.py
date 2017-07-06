@@ -70,6 +70,7 @@ targets_list = [
         Target('ork', 4, 6, 1),
         Target('marine', 4, 3, 1),
         Target('terminator', 4, 2, 2),
+        Target('bike', 5, 3, 2),
         Target('piranha', 5, 4, 6),
         Target('harpy', 6, 4, 12),
         Target('manticore', 7, 3, 11),
@@ -132,7 +133,7 @@ def riptide_nova_burst_plasma_24_inches() -> Model:
     return Model(4, 'riptide burst nova plasma 24 inches', [hvy_burst_cannon_nova(), plasma_24_inches(), plasma_24_inches()], 209)
 
 def riptide_nova_burst_sms() -> Model:
-    return Model(4, 'riptide burst nvoa sms', [hvy_burst_cannon_nova(), sms(), sms()], 209)
+    return Model(4, 'riptide burst nova sms', [hvy_burst_cannon_nova(), sms(), sms()], 209)
 
 def stormsurge_blastcannon_short() -> Model:
     return Model(4, 'stormsurge blastcannon short', [cluster_rocket_system(), sms(), sms(), flamer(), flamer(), pulse_blastcannon_short()], 180 + 40)
