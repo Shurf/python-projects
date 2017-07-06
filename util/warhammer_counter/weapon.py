@@ -13,6 +13,9 @@ class Profile:
 
 class Weapon:
 
+    def is_autohit(self):
+        return False
+
     def __init__(self, name:str, point_cost:int, profiles:typing.List[Profile]):
         self.name = name
         self.point_cost_value = point_cost

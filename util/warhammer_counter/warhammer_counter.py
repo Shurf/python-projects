@@ -32,7 +32,7 @@ def main():
         StormsurgePulseDriverAnchored()
     ]
 
-    ranges = [10, 20, 30, 72]
+    ranges = [8, 20, 30, 72]
 
     with open('output.html', 'w') as f:
         f.write('<html>')

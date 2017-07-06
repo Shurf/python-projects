@@ -42,10 +42,12 @@ class Plasma(Weapon):
 
 
 class Flamer(Weapon):
+    def is_autohit(self):
+        return True
     def __init__(self):
         super().__init__('flamer',
                          9,
-                         [Profile(min_range=0, max_range=12, strength=4, shots=3.5, ap=0, damage=1)])
+                         [Profile(min_range=0, max_range=8, strength=4, shots=3.5, ap=0, damage=1)])
 
 
 
