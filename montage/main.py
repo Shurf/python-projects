@@ -16,7 +16,7 @@ def download():
         shutil.rmtree(images_path)
     os.makedirs(images_path)
 
-    lines = [line.rstrip('\n') for line in open('config.txt')]
+    lines = [line.rstrip('\n') for line in open('config-arkham.txt')]
     for i in range(0, int(len(lines) / 2)):
         name = lines[i * 2]
         url = lines[i * 2 + 1]
@@ -31,9 +31,9 @@ def convert():
     datetime.datetime.now().strftime("%Y%m%d-%S")
 
     parser = argparse.ArgumentParser(prog='mtg-montage', description='Process images for print')
-    parser.add_argument('-d', '--directory', default='./', help='the directory where the card images are located')
-    parser.add_argument('-i', '--input', default='', required=True, help='input file with card names and quatity')
-    parser.add_argument('-o', '--output', default='', required=True, help='output pdf file to store the montage')
+    parser.add_argument('-d', '--directory', default='./images', help='the directory where the card images are located')
+    parser.add_argument('-i', '--input', default='./arkham.txt', required=False, help='input file with card names and quatity')
+    parser.add_argument('-o', '--output', default='./arkham.pdf', required=False, help='output pdf file to store the montage')
     parser.add_argument('-t', '--test', action='store_true', default=False,
                         help='tests to see which images can be found - doesn\'t generate anything')
     parser.add_argument('-s', '--savefile', default='', required=False,
@@ -80,7 +80,7 @@ def convert():
         command = 'montage '
         for img in matches:
             command = command + '"' + img + '" '
-        command = command + '-geometry 744x1039 -density 300 -tile 3x3 '
+        command = command + '-quality 100 -geometry 744x1039 -density 400 -tile 3x3 '
         command = command + args.output
         print('')
         print('Building the pdf. This may take a while...')
